@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AISAB — Agrupación Independiente San Antonio de Benagéber</title>
+<meta name="description" content="AISAB, Agrupación Independiente de San Antonio de Benagéber. El pueblo donde crecen nuestros hijos.">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="icon" type="image/png" href="assets/logo-aisab.png">
+</head>
+<body>
+
+<!-- ================= CABECERA ================= -->
+<header class="cabecera cabecera-overlay">
+  <div class="cabecera-inner">
+    <a href="index.html" class="marca">
+      <img class="logo logo-completo" src="assets/logo-aisab.png" alt="AISAB — Agrupación Independiente San Antonio de Benagéber">
+      <img class="logo logo-arbol" src="assets/logo-aisab-arbol.png" alt="AISAB">
+    </a>
+    <input type="checkbox" id="menu-check" class="menu-check">
+    <label for="menu-check" class="menu-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></label>
+    <nav class="menu">
+      <a href="#quienes-somos">¿Quiénes somos?</a>
+      <a href="#ayuntamiento">Ayuntamiento</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#trabajando">En marcha</a>
+      <a href="#equipo">Equipo</a>
+      <a class="cta destacado" href="#" id="abrir-modal">¿Tienes una queja o sugerencia?</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HÉROE: LA PLAZA (secuencia por scroll) ================= -->
+<div id="secuencia">
+  <div id="escenario">
+    <canvas id="lienzo-canvas"></canvas>
+    <div id="cargando-hero"><div class="barra"><i id="barra-hero"></i></div></div>
+    <div id="titular-heroe">
+      <h1>El pueblo donde crecen nuestros hijos</h1>
+      <div class="raya"></div>
+    </div>
+    <div id="pista"><span>Haz scroll</span><div class="flecha"></div></div>
+  </div>
+</div>
+
+<!-- ================= QUIÉNES SOMOS ================= -->
+<section class="seccion" id="quienes-somos">
+  <div class="contenedor">
+    <div class="titulo-seccion">
+      <img src="assets/icons/quienes-somos.png" alt="">
+      <h2>¿Quiénes somos?</h2>
+    </div>
+    <div class="card" style="margin-bottom:22px">
+      <p>AISAB nació en 2010 en San Antonio de Benagéber de un grupo de vecinos, ante la falta de una opción política local e independiente.</p>
+      <p style="margin-top:12px">Se creó con un único objetivo claro: <strong>trabajar por el bienestar del municipio y de todas las personas que viven en él</strong>, priorizando las necesidades reales de los vecinos por encima de intereses externos.</p>
+      <p style="margin-top:12px">Desde 2015 gobernamos con responsabilidad y cercanía, escuchando a los vecinos y tomando decisiones con sentido común.</p>
+    </div>
+    <div class="bloque-andrea">
+      <div class="tarjeta-andrea">
+        <img src="assets/photos/andrea-mendez-equipo.jpg" alt="Andrea Méndez">
+        <div class="firma">
+          <h3>Andrea Méndez</h3>
+          <p class="cargo">Portavoz AISAB y teniente de alcalde</p>
+          <a class="insta" href="https://www.instagram.com/andreamendezduransab" target="_blank" rel="noopener">
+            <svg class="icono-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor" stroke="none"/></svg>@andreamendezduransab
+          </a>
+        </div>
+      </div>
+      <div class="card cita">
+        <p>En estos últimos años, San Antonio de Benagéber ha crecido mucho. Hoy somos muchas las familias que hemos elegido este municipio para ver crecer aquí a nuestros hijos.</p>
+        <p>Para los que no me conozcáis, soy <strong>Andrea</strong>, portavoz de AISAB. Montesano me ha visto crecer y formar mi familia, y eso me hace conocer de cerca las necesidades de nuestro pueblo y la importancia de seguir mejorándolo cada día.</p>
+        <p>Tenemos la suerte y también la responsabilidad de ser un municipio joven y lleno de vida. Por eso seguimos trabajando para cuidar nuestros espacios, mejorar los servicios y construir el pueblo que todos queremos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= QUÉ HA PASADO EN EL AYUNTAMIENTO ================= -->
+<section class="seccion azul-claro" id="ayuntamiento">
+  <div class="contenedor">
+    <div class="titulo-seccion">
+      <img src="assets/icons/ayuntamiento.png" alt="">
+      <h2>¿Qué ha pasado en el ayuntamiento?</h2>
+    </div>
+    <div class="card" style="background:#fff">
+      <ul class="pasos">
+        <li><span class="num">1</span><p>En 2023, fuimos el partido más votado con casi el doble de votos que el siguiente quedándonos a 2 concejales de la mayoría absoluta.</p></li>
+        <li><span class="num">2</span><p>Tras la coalición del resto de partidos políticos asumió el gobierno el partido menos votado.</p></li>
+        <li><span class="num">3</span><p>Esa coalición no consiguió funcionar, dando lugar a una moción de censura, impulsada por parte del propio equipo de gobierno para poner fin a esa situación.</p></li>
+        <li><span class="num">4</span><p>En septiembre de 2025, AISAB vuelve al gobierno para recuperar la estabilidad.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BANNER COMPROMISO ================= -->
+<section class="seccion azul">
+  <div class="contenedor banner-compromiso">
+    <div class="frase">
+      <img src="assets/icons/bocadillo.png" alt="">
+      <p>“Nuestro compromiso no es con partidos, <strong>es con nuestro pueblo.”</strong></p>
+    </div>
+    <a class="insta" style="color:#fff" href="https://www.instagram.com/aisab_sab" target="_blank" rel="noopener">
+      <svg class="icono-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor" stroke="none"/></svg>@aisab_sab
+    </a>
+  </div>
+</section>
+
+<!-- ================= PROYECTOS REALIZADOS ================= -->
+<section class="seccion azul-claro" id="proyectos">
+  <div class="contenedor">
+    <h2 class="titulo-banda">Algunos de los proyectos realizados</h2>
+    <div class="rejilla-proyectos">
+      <div class="proyecto">
+        <span class="num-marca">1</span>
+        <img class="icono" src="assets/icons/polideportivo.png" alt="">
+        <div><h3>Polideportivo municipal</h3><p>Con pistas de pádel, tenis, cancha cubierta de baloncesto.</p></div>
+      </div>
+      <div class="proyecto">
+        <span class="num-marca">2</span>
+        <img class="icono" src="assets/icons/pasarela.png" alt="">
+        <div><h3>Pasarela sobre CV-35</h3><p>Comunicamos Montesano con el casco urbano.</p></div>
+      </div>
+      <div class="proyecto">
+        <span class="num-marca">3</span>
+        <img class="icono" src="assets/icons/ceip.png" alt="">
+        <div><h3>Nuevo CEIP Montesano</h3><p>Aumento de nuevas plazas escolares con el nuevo colegio público.</p></div>
+      </div>
+      <div class="proyecto">
+        <span class="num-marca">4</span>
+        <img class="icono" src="assets/icons/parques.png" alt="">
+        <div><h3>Nuevos parques</h3><p>Creación y renovación de parques infantiles, calistenia y caninos.</p></div>
+      </div>
+      <div class="proyecto">
+        <span class="num-marca">5</span>
+        <img class="icono" src="assets/icons/deuda.png" alt="">
+        <div><h3>Eliminar deuda heredada</h3><p>Deuda del anterior equipo de gobierno.</p></div>
+      </div>
+      <div class="proyecto">
+        <span class="num-marca">6</span>
+        <img class="icono" src="assets/icons/seguridad.png" alt="">
+        <div><h3>Aumentar seguridad</h3><p>Aumento de cámaras de vigilancias, dron policial, paso de cebras inteligentes, mayor número de agentes.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EN QUÉ ESTAMOS TRABAJANDO ================= -->
+<section class="seccion" id="trabajando">
+  <div class="contenedor">
+    <h2 class="titulo-banda" style="background:var(--azul-claro);color:var(--azul)">¿En qué estamos trabajando?</h2>
+    <div class="rejilla-trabajos">
+      <div class="trabajo">
+        <img src="assets/icons/movilidad.png" alt="">
+        <h3>Movilidad</h3>
+        <p>Mejoras en transporte y Tarjeta SUMA.</p>
+      </div>
+      <div class="trabajo">
+        <img src="assets/icons/servicios-sociales.png" alt="">
+        <h3>Servicios Sociales</h3>
+        <p>Edificio exclusivo de atención primaria de Servicios Sociales (discapacidad, dependencia...)</p>
+      </div>
+      <div class="trabajo">
+        <img src="assets/icons/educacion.png" alt="">
+        <h3>Educación</h3>
+        <p>Ampliación del IES (más oportunidades para nuestros jóvenes).</p>
+      </div>
+      <div class="trabajo">
+        <img src="assets/icons/sanidad.png" alt="">
+        <h3>Sanidad</h3>
+        <p>La Conselleria de Sanidad ha iniciado la licitación para la redacción del proyecto y dirección de obra.</p>
+      </div>
+      <div class="trabajo">
+        <img src="assets/icons/deporte.png" alt="">
+        <h3>Deporte</h3>
+        <p>Renovación del césped del campo de fútbol (mejores instalaciones para nuestros hijos).</p>
+      </div>
+      <div class="trabajo">
+        <img src="assets/icons/calles.png" alt="">
+        <h3>Calles más cuidadas</h3>
+        <p>Ampliamos el contrato en 95mil€ anuales adicionales. Y mejora de viales y luminarias.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NUESTRO EQUIPO ================= -->
+<section class="seccion azul-claro" id="equipo">
+  <div class="contenedor">
+    <h2 class="titulo-banda">Nuestro equipo</h2>
+    <div class="rejilla-equipo">
+      <div class="miembro">
+        <img src="assets/photos/andrea-mendez-equipo.jpg" alt="Andrea Méndez">
+        <div class="info">
+          <h3>Andrea Méndez</h3>
+          <p>Áreas de Bienestar Social, Políticas Inclusivas, Igualdad, Bienestar Animal y Nuevas Tecnologías.</p>
+        </div>
+      </div>
+      <div class="miembro">
+        <img src="assets/photos/fernando-faubel.jpg" alt="Fernando Faubel">
+        <div class="info">
+          <h3>Fernando Faubel</h3>
+          <p>Áreas de Servicios, Comercio y Desarrollo Local, y Medio Ambiente.</p>
+        </div>
+      </div>
+      <div class="miembro">
+        <img src="assets/photos/adi-bulls.jpg" alt="Adi Bulls">
+        <div class="info">
+          <h3>Adi Bulls</h3>
+          <p>Áreas de Deportes, Movilidad y Atención al Ciudadano.</p>
+        </div>
+      </div>
+      <div class="miembro">
+        <img src="assets/photos/ma-angeles-irles.jpg" alt="Mª Ángeles Irles">
+        <div class="info">
+          <h3>Mª Ángeles Irles</h3>
+          <p>Áreas de Sanidad y Seguridad Ciudadana.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CANAL WHATSAPP ================= -->
+<section class="seccion" id="contacto">
+  <div class="contenedor">
+    <a class="banner-c banner-enlace" href="https://wa.me/34601269285?text=%C2%A1Hola%2C%20quiero%20unirme%20al%20canal%20de%20AIsab!" target="_blank" rel="noopener">
+      <div class="titulo">CONTÁCTANOS Y SÍGUENOS EN EL CANAL AISAB</div>
+      <div class="cuerpo">
+        <img src="assets/icons/whatsapp.png" alt="WhatsApp">
+        <div>
+          <p><strong>Únete a nuestro canal</strong> para estar informado de todo lo que pasa en San Antonio.</p>
+          <p style="margin-top:12px"><span class="boton">Abrir WhatsApp</span></p>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ================= PANEL DE SUGERENCIAS (en la propia landing) ================= -->
+<section class="seccion azul-claro" id="sugerencias">
+  <div class="contenedor">
+    <div class="titulo-seccion">
+      <img src="assets/icons/globo.png" alt="">
+      <h2>¡Queremos escucharte!</h2>
+    </div>
+    <p style="max-width:760px;margin:0 auto 26px;text-align:center">
+      <strong>Déjanos tu sugerencia.</strong> Tu opinión es importante para seguir mejorando
+      nuestro pueblo. Puedes hacerlo de forma anónima o dejarnos tus datos para poder responderte.
+    </p>
+    <div id="form-en-pagina"></div>
+  </div>
+</section>
+
+<!-- ================= PIE ================= -->
+<footer class="pie">
+  <div class="contenedor pie-inner">
+    <img class="logo" src="assets/logo-aisab.png" alt="AISAB — Agrupación Independiente San Antonio de Benagéber">
+    <a href="https://www.instagram.com/aisab_sab" target="_blank" rel="noopener">
+      <svg class="icono-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor" stroke="none"/></svg>@aisab_sab
+    </a>
+  </div>
+  <div class="contenedor pie-legal">
+    <p>© AISAB — Agrupación Independiente de San Antonio de Benagéber · San Antonio de Benagéber (Valencia)</p>
+    <nav>
+      <a href="aviso-legal.html">Aviso legal</a> ·
+      <a href="privacidad.html">Política de privacidad</a> ·
+      <a href="cookies.html">Política de cookies</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- ================= MODAL DE SUGERENCIAS ================= -->
+<div class="modal-fondo" id="modal-sugerencias" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Déjanos tu sugerencia">
+    <button class="modal-cerrar" id="cerrar-modal" aria-label="Cerrar">&times;</button>
+    <div class="titulo-seccion" style="margin-bottom:14px">
+      <img src="assets/icons/globo.png" alt="">
+      <h2>¿Tienes una queja o sugerencia?</h2>
+    </div>
+    <div id="form-en-modal"></div>
+  </div>
+</div>
+
+<!-- ================= PLANTILLA DEL FORMULARIO (se usa en la página y en el modal) ================= -->
+<template id="plantilla-formulario">
+  <form class="formulario form-sugerencia" novalidate>
+    <div class="campo">
+      <label>Área de la sugerencia *</label>
+      <select class="f-area" required>
+        <option value="" selected disabled>Elige un área…</option>
+      </select>
+      <p class="ayuda">Ejemplos: Parques y Jardines, Seguridad Ciudadana, Movilidad…</p>
+    </div>
+    <div class="fila-doble">
+      <div class="campo">
+        <label>Zona del pueblo *</label>
+        <select class="f-zona" required>
+          <option value="" selected disabled>Elige tu zona…</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>Calle (opcional)</label>
+        <input type="text" class="f-calle" list="lista-calles" placeholder="Empieza a escribir…">
+        <p class="ayuda">Si la sugerencia es de un punto concreto, indícanos la calle.</p>
+      </div>
+    </div>
+    <div class="campo">
+      <label>¿Qué nos quieres contar? *</label>
+      <div class="opciones-anonimato opciones-tipo">
+        <label><input type="radio" class="f-tipo" value="Queja" checked> Queja</label>
+        <label><input type="radio" class="f-tipo" value="Sugerencia"> Sugerencia</label>
+        <label><input type="radio" class="f-tipo" value="Pregunta"> Pregunta</label>
+        <label><input type="radio" class="f-tipo" value="Felicitación"> Felicitación</label>
+      </div>
+    </div>
+    <div class="campo">
+      <label>Tu mensaje *</label>
+      <textarea class="f-texto" required placeholder="Cuéntanos tu sugerencia, queja o idea para mejorar el pueblo…"></textarea>
+    </div>
+    <div class="campo">
+      <label>¿Cómo quieres enviarla? *</label>
+      <div class="opciones-anonimato">
+        <label><input type="radio" class="f-modo" name="modo" value="anonima" checked> De forma anónima</label>
+        <label><input type="radio" class="f-modo" name="modo" value="con-datos"> Con mis datos (para poder responderte)</label>
+      </div>
+    </div>
+    <div class="datos-personales">
+      <div class="fila-doble">
+        <div class="campo">
+          <label>Nombre</label>
+          <input type="text" class="f-nombre" autocomplete="name">
+        </div>
+        <div class="campo">
+          <label>Email o teléfono</label>
+          <input type="text" class="f-contacto" autocomplete="email">
+        </div>
+      </div>
+    </div>
+    <input type="text" class="f-web" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+    <button class="boton azul" type="submit" style="width:100%">Enviar sugerencia</button>
+    <p class="aviso-ok">¡Gracias! Tu sugerencia se ha preparado correctamente.</p>
+    <p class="ayuda" style="margin-top:12px;text-align:center">
+      Las sugerencias se tratan de forma confidencial y solo se usan para mejorar el municipio.
+      Al enviar aceptas la <a href="privacidad.html" target="_blank">política de privacidad</a>.
+    </p>
+  </form>
+</template>
+<datalist id="lista-calles"></datalist>
+
+<script src="js/config.js"></script>
+<script src="js/datos-calles.js"></script>
+<script>
+/* ============================================================
+   CONFIGURACIÓN — destino de las sugerencias (pendiente de Mario)
+   Mientras no haya backend, el formulario abre el correo del
+   usuario con todo el texto ya preparado (mailto).
+   ============================================================ */
+// ---- Datalist global de calles ----
+const dl = document.getElementById("lista-calles");
+CALLES.forEach(c => { const o = document.createElement("option"); o.value = c; dl.appendChild(o); });
+
+// ---- Crear una instancia del formulario dentro de un contenedor ----
+function crearFormulario(contenedor, sufijo) {
+  const nodo = document.getElementById("plantilla-formulario").content.cloneNode(true);
+  contenedor.appendChild(nodo);
+  const form = contenedor.querySelector(".form-sugerencia");
+
+  const selArea = form.querySelector(".f-area");
+  AREAS.forEach(a => selArea.add(new Option(a, a)));
+  const selZona = form.querySelector(".f-zona");
+  ZONAS.forEach(z => selZona.add(new Option(z, z)));
+
+  // radios necesitan name único por instancia
+  form.querySelectorAll(".f-modo").forEach(r => r.name = "modo-" + sufijo);
+  form.querySelectorAll(".f-tipo").forEach(r => r.name = "tipo-" + sufijo);
+
+  const bloqueDatos = form.querySelector(".datos-personales");
+  form.querySelectorAll(".f-modo").forEach(r =>
+    r.addEventListener("change", () => {
+      bloqueDatos.classList.toggle("visible", form.querySelector(".f-modo:checked").value === "con-datos");
+    })
+  );
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    if (form.querySelector(".f-web").value) return; // honeypot anti-spam
+    const area = selArea.value, zona = selZona.value;
+    const texto = form.querySelector(".f-texto").value.trim();
+    if (!area || !zona || !texto) { alert("Por favor, rellena área, zona y mensaje."); return; }
+
+    const anonima = form.querySelector(".f-modo:checked").value === "anonima";
+    const datos = {
+      tipo: form.querySelector(".f-tipo:checked").value,
+      area: area,
+      zona: zona,
+      calle: form.querySelector(".f-calle").value.trim() || null,
+      texto: texto,
+      anonima: anonima,
+      nombre: anonima ? null : (form.querySelector(".f-nombre").value.trim() || null),
+      contacto: anonima ? null : (form.querySelector(".f-contacto").value.trim() || null)
+    };
+
+    const C = window.AISAB_CONFIG || {};
+    const boton = form.querySelector('button[type="submit"]');
+    try {
+      if (C.SUPABASE_URL && C.SUPABASE_ANON_KEY) {
+        boton.disabled = true; boton.textContent = "Enviando…";
+        const r = await fetch(C.SUPABASE_URL + "/rest/v1/sugerencias", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": C.SUPABASE_ANON_KEY,
+            "Authorization": "Bearer " + C.SUPABASE_ANON_KEY,
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify(datos)
+        });
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        form.reset();
+      } else if (C.EMAIL_DESTINO) {
+        const cuerpo = Object.entries(datos).map(([k,v]) => k + ": " + (v ?? "—")).join("\n");
+        window.location.href = "mailto:" + C.EMAIL_DESTINO +
+          "?subject=" + encodeURIComponent("Sugerencia (" + area + " — " + zona + ")") +
+          "&body=" + encodeURIComponent(cuerpo);
+      } else {
+        console.log(datos); // sin destino configurado todavía
+      }
+      form.querySelector(".aviso-ok").classList.add("visible");
+    } catch (err) {
+      alert("No se ha podido enviar. Inténtalo de nuevo en un momento.");
+    } finally {
+      boton.disabled = false; boton.textContent = "Enviar sugerencia";
+    }
+  });
+}
+
+crearFormulario(document.getElementById("form-en-pagina"), "pagina");
+crearFormulario(document.getElementById("form-en-modal"), "modal");
+
+// ---- Modal ----
+const modal = document.getElementById("modal-sugerencias");
+document.getElementById("abrir-modal").addEventListener("click", e => {
+  e.preventDefault();
+  modal.classList.add("visible");
+  document.body.style.overflow = "hidden";
+});
+function cerrarModal() {
+  modal.classList.remove("visible");
+  document.body.style.overflow = "";
+}
+document.getElementById("cerrar-modal").addEventListener("click", cerrarModal);
+modal.addEventListener("click", e => { if (e.target === modal) cerrarModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarModal(); });
+
+// ---- Héroe: secuencia de fotogramas por scroll (vídeo de la plaza) ----
+(function () {
+  var TOTAL = 89;                       // nº de fotogramas en assets/hero-secuencia/
+  var RUTA  = "assets/hero-secuencia/frame_", EXT = ".jpg";
+  var FOCAL_X_PORTRAIT = 0.40;          // foco horizontal en móvil vertical (0=izq, 1=der)
+  var FIN_ANIM = 0.72;                  // la animación acaba al 72% del scroll; el resto queda quieto
+
+  var sec = document.getElementById("secuencia");
+  var canvas = document.getElementById("lienzo-canvas");
+  if (!canvas) return;
+  var ctx = canvas.getContext("2d", { alpha: false });
+  var pista = document.getElementById("pista");
+  var cargando = document.getElementById("cargando-hero");
+  var barra = document.getElementById("barra-hero");
+  var escenario = document.getElementById("escenario");
+  var cabecera = document.querySelector(".cabecera");
+
+  var imgs = new Array(TOTAL), cargadas = 0, listo = false;
+  function nombre(i){ return RUTA + String(i).padStart(3, "0") + EXT; }
+  for (var i = 0; i < TOTAL; i++) { (function (i) {
+    var im = new Image();
+    im.onload = function () { cargadas++; if (barra) barra.style.width = Math.round(cargadas / TOTAL * 100) + "%"; if (cargadas === TOTAL) iniciar(); };
+    im.onerror = function () { cargadas++; if (cargadas === TOTAL) iniciar(); };
+    im.src = nombre(i); imgs[i] = im;
+  })(i); }
+
+  function clamp01(x){ return Math.min(1, Math.max(0, x)); }
+  function ajustarCanvas(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(canvas.clientWidth * dpr);
+    canvas.height = Math.round(canvas.clientHeight * dpr);
+  }
+  function dibujar(idx){
+    var im = imgs[Math.max(0, Math.min(TOTAL - 1, idx | 0))];
+    if (!im || !im.complete || !im.naturalWidth) return;
+    var cw = canvas.width, ch = canvas.height, iw = im.naturalWidth, ih = im.naturalHeight;
+    var e = Math.max(cw / iw, ch / ih), w = iw * e, h = ih * e;     // cover: llena sin bordes
+    var fx = (cw < ch) ? FOCAL_X_PORTRAIT : 0.5;                    // móvil: foco en sabina+fuente
+    ctx.drawImage(im, (cw - w) * fx, (ch - h) * 0.5, w, h);
+  }
+
+  var objetivo = 0, actual = 0;
+  function medir(){
+    var total = sec.offsetHeight - window.innerHeight;
+    objetivo = clamp01(-sec.getBoundingClientRect().top / total);
+    if (cabecera) {
+      var pasado = (sec.getBoundingClientRect().bottom - cabecera.offsetHeight) <= 0;
+      cabecera.classList.toggle("solida", pasado);
+    }
+  }
+  function pintar(){
+    actual += (objetivo - actual) * 0.18;
+    if (Math.abs(objetivo - actual) < 0.0004) actual = objetivo;
+    var anim = clamp01(actual / FIN_ANIM);
+    dibujar(Math.round(anim * (TOTAL - 1)));
+    if (pista) pista.style.opacity = 1 - clamp01(actual / 0.05);
+    requestAnimationFrame(pintar);
+  }
+  function iniciar(){
+    if (listo) return; listo = true;
+    ajustarCanvas(); dibujar(0);
+    if (cargando) { cargando.style.opacity = 0; setTimeout(function(){ cargando.style.display = "none"; }, 400); }
+    window.addEventListener("scroll", medir, { passive: true });
+    var re = function(){ ajustarCanvas(); medir(); var a = clamp01(actual / FIN_ANIM); dibujar(Math.round(a * (TOTAL - 1))); };
+    window.addEventListener("resize", re);
+    window.addEventListener("orientationchange", function(){ setTimeout(re, 300); });
+    medir(); requestAnimationFrame(pintar);
+  }
+})();
+
+</script>
+
+</body>
+</html>

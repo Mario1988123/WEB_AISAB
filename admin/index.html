@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Panel AISAB — Sugerencias</title>
+<link rel="icon" type="image/png" href="../assets/logo-aisab.png">
+<style>
+  :root { --azul:#1858a4; --azul-osc:#11427e; --azul-claro:#e5f0fa; --verde:#2f9e44; --rojo:#d23b3b; --ambar:#e0a200; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; background:#f2f6fb; color:#1c2733; }
+  .oculto { display:none !important; }
+
+  /* ---- pantalla de clave ---- */
+  #puerta { min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--azul); }
+  #puerta .caja { background:#fff; border-radius:18px; padding:38px; width:min(380px,92%); text-align:center; }
+  #puerta img { height:60px; margin:0 auto 18px; }
+  #puerta h1 { color:var(--azul); font-size:1.3rem; margin-bottom:18px; }
+  #puerta input { width:100%; padding:12px; border:1px solid #b9cde3; border-radius:10px; font-size:1rem; text-align:center; }
+  #puerta button { margin-top:14px; width:100%; padding:12px; border:none; border-radius:999px; background:var(--azul); color:#fff; font-weight:700; font-size:1rem; cursor:pointer; }
+  #puerta .error { color:var(--rojo); font-weight:600; margin-top:10px; display:none; }
+
+  /* ---- panel ---- */
+  header.barra { background:var(--azul); color:#fff; padding:10px 18px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  header.barra img { height:42px; }
+  header.barra h1 { font-size:1.1rem; flex:1; }
+  header.barra .demo { background:var(--ambar); color:#3d2c00; font-weight:700; padding:4px 12px; border-radius:999px; font-size:.85rem; }
+  header.barra button { background:rgba(255,255,255,.15); color:#fff; border:none; border-radius:999px; padding:8px 16px; cursor:pointer; font-weight:600; }
+
+  .contenido { max-width:1280px; margin:0 auto; padding:18px; }
+
+  /* ---- filtros ---- */
+  .filtros { display:flex; gap:10px; flex-wrap:wrap; align-items:end; background:#fff; border-radius:14px; padding:14px; margin-bottom:16px; box-shadow:0 4px 16px rgba(24,88,164,.08); }
+  .filtros label { display:block; font-size:.78rem; font-weight:700; color:var(--azul-osc); margin-bottom:4px; }
+  .filtros select, .filtros input { padding:8px 10px; border:1px solid #b9cde3; border-radius:8px; font-size:.92rem; background:#fff; }
+  .filtros .chip { background:var(--azul-claro); color:var(--azul-osc); border-radius:999px; padding:8px 14px; font-weight:700; font-size:.9rem; }
+  .filtros button { padding:9px 16px; border:none; border-radius:999px; background:var(--azul); color:#fff; font-weight:700; cursor:pointer; }
+  .filtros button.suave { background:#dbe7f3; color:var(--azul-osc); }
+
+  /* ---- mapa + ficha ---- */
+  .zona-mapa { display:grid; grid-template-columns: 1fr 330px; gap:16px; margin-bottom:18px; }
+  @media (max-width:900px){ .zona-mapa { grid-template-columns:1fr; } }
+  #cajamapa { background:#fff; border-radius:14px; box-shadow:0 4px 16px rgba(24,88,164,.08); position:relative; overflow:hidden; }
+  #mapa { display:block; width:100%; height:560px; cursor:grab; touch-action:none; }
+  #mapa:active { cursor:grabbing; }
+  .ctl { position:absolute; right:12px; top:12px; display:flex; flex-direction:column; gap:6px; }
+  .ctl button { width:38px; height:38px; border:none; border-radius:10px; background:var(--azul); color:#fff; font-size:1.3rem; font-weight:700; cursor:pointer; }
+  .leyenda { position:absolute; left:12px; bottom:10px; background:rgba(255,255,255,.92); border-radius:10px; padding:8px 12px; font-size:.8rem; display:flex; gap:12px; flex-wrap:wrap; }
+  .leyenda span { display:inline-flex; align-items:center; gap:5px; font-weight:600; }
+  .leyenda i { width:12px; height:12px; border-radius:50%; display:inline-block; }
+  .aviso-mapa { position:absolute; left:12px; top:12px; background:rgba(255,255,255,.92); border-radius:10px; padding:6px 10px; font-size:.75rem; color:#5a6b7d; }
+
+  #ficha { background:#fff; border-radius:14px; padding:18px; box-shadow:0 4px 16px rgba(24,88,164,.08); align-self:start; position:sticky; top:12px; }
+  #ficha h2 { color:var(--azul); font-size:1rem; margin-bottom:10px; }
+  #ficha .etq { display:inline-block; border-radius:999px; padding:3px 10px; font-size:.78rem; font-weight:700; color:#fff; margin-right:6px; }
+  #ficha p { font-size:.92rem; margin-top:10px; }
+  #ficha .meta { font-size:.82rem; color:#5a6b7d; margin-top:8px; }
+  #ficha .estado { margin-top:12px; display:flex; gap:6px; flex-wrap:wrap; }
+  #ficha .estado button { border:1px solid #b9cde3; background:#fff; border-radius:999px; padding:6px 12px; cursor:pointer; font-weight:600; font-size:.82rem; }
+  #ficha .estado button.activo { background:var(--azul); color:#fff; border-color:var(--azul); }
+
+  /* ---- tabla ---- */
+  .tabla-caja { background:#fff; border-radius:14px; padding:14px; box-shadow:0 4px 16px rgba(24,88,164,.08); overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:.88rem; }
+  th { text-align:left; color:var(--azul-osc); padding:8px 10px; border-bottom:2px solid var(--azul-claro); white-space:nowrap; }
+  td { padding:8px 10px; border-bottom:1px solid #edf2f8; vertical-align:top; }
+  tr:hover td { background:#f5f9fd; cursor:pointer; }
+  .punto { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; }
+  td select { padding:4px 6px; border-radius:6px; border:1px solid #b9cde3; }
+</style>
+</head>
+<body>
+
+<!-- ================= PUERTA ================= -->
+<div id="puerta">
+  <form class="caja" id="form-clave">
+    <img src="../assets/logo-aisab.png" alt="AISAB">
+    <h1>Panel de sugerencias</h1>
+    <input type="password" id="clave" placeholder="Contraseña" autocomplete="current-password" autofocus>
+    <button type="submit">Entrar</button>
+    <p class="error" id="error-clave">Contraseña incorrecta</p>
+  </form>
+</div>
+
+<!-- ================= PANEL ================= -->
+<div id="panel" class="oculto">
+  <header class="barra">
+    <img src="../assets/logo-aisab.png" alt="AISAB">
+    <h1>Sugerencias de los vecinos</h1>
+    <span class="demo oculto" id="aviso-demo">MODO DEMO — sin conexión a la base de datos</span>
+    <button id="exportar">Exportar CSV</button>
+    <button id="salir">Salir</button>
+  </header>
+
+  <div class="contenido">
+    <div class="filtros">
+      <div><label>Tipo</label><select id="f-tipo"><option value="">Todos</option><option>Queja</option><option>Sugerencia</option><option>Pregunta</option><option>Felicitación</option></select></div>
+      <div><label>Área</label><select id="f-area"><option value="">Todas</option></select></div>
+      <div><label>Zona</label><select id="f-zona"><option value="">Todas</option></select></div>
+      <div><label>Estado</label><select id="f-estado"><option value="">Todos</option><option>Nueva</option><option>Vista</option><option>Resuelta</option></select></div>
+      <div><label>Desde</label><input type="date" id="f-desde"></div>
+      <div><label>Hasta</label><input type="date" id="f-hasta"></div>
+      <div><label>Buscar</label><input type="text" id="f-texto" placeholder="calle, palabra…"></div>
+      <button class="suave" id="limpiar">Limpiar</button>
+      <span class="chip" id="contador">0 resultados</span>
+    </div>
+
+    <div class="zona-mapa">
+      <div id="cajamapa">
+        <svg id="mapa" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="ctl">
+          <button id="zmas" aria-label="Acercar">+</button>
+          <button id="zmenos" aria-label="Alejar">−</button>
+          <button id="zcasa" aria-label="Centrar" style="font-size:.9rem">⌂</button>
+        </div>
+        <div class="aviso-mapa">Plano esquemático del municipio (no a escala)</div>
+        <div class="leyenda">
+          <span><i style="background:#d23b3b"></i>Queja</span>
+          <span><i style="background:#1858a4"></i>Sugerencia</span>
+          <span><i style="background:#e0a200"></i>Pregunta</span>
+          <span><i style="background:#2f9e44"></i>Felicitación</span>
+        </div>
+      </div>
+      <div id="ficha">
+        <h2>Detalle</h2>
+        <p id="ficha-vacia" style="color:#5a6b7d">Pulsa una chincheta del mapa o una fila de la tabla.</p>
+        <div id="ficha-datos" class="oculto"></div>
+      </div>
+    </div>
+
+    <div class="tabla-caja">
+      <table>
+        <thead><tr><th>Fecha</th><th>Tipo</th><th>Área</th><th>Zona</th><th>Calle</th><th>Mensaje</th><th>Estado</th></tr></thead>
+        <tbody id="cuerpo-tabla"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script>
+"use strict";
+/* ============================================================
+   Panel /admin — AISAB
+   Sin Supabase configurado funciona en MODO DEMO con datos
+   de ejemplo, para poder probar mapa y filtros.
+   ============================================================ */
+var HASH_CLAVE = "c8f70915b4cb236f9fc9b97a33151a34a26b40e45ad7f8474de59f01b624ebd5";
+var COLORES_TIPO = { "Queja":"#d23b3b", "Sugerencia":"#1858a4", "Pregunta":"#e0a200", "Felicitación":"#2f9e44" };
+
+/* ---- zonas del plano esquemático: contorno y ancla de chinchetas ---- */
+var ZONAS_MAPA = {
+  "Montesano":               { path:"M70 180 q-30 90 0 200 q20 90 110 80 q90 -10 100 -90 q10 -90 -20 -160 q-30 -80 -100 -80 q-70 0 -90 50 z", ancla:[170,300], etiqueta:[170,170] },
+  "Casco urbano":            { path:"M400 300 q-20 100 30 170 q60 60 150 40 q80 -20 80 -110 q0 -90 -50 -130 q-60 -40 -130 -20 q-60 15 -80 50 z", ancla:[530,400], etiqueta:[530,290] },
+  "Colinas de San Antonio":  { path:"M430 80 q-40 60 -10 130 q30 60 110 60 q90 0 130 -50 q40 -55 0 -110 q-40 -50 -120 -55 q-75 -5 -110 25 z", ancla:[560,150], etiqueta:[560,70] },
+  "Cumbres de San Antonio":  { path:"M720 220 q-40 60 -10 130 q30 70 110 70 q85 0 110 -70 q22 -70 -18 -120 q-45 -55 -115 -50 q-55 5 -77 40 z", ancla:[830,310], etiqueta:[830,205] },
+  "San Vicente":             { path:"M450 560 q-15 60 40 85 q70 30 150 10 q75 -20 70 -75 q-5 -55 -80 -65 q-90 -10 -140 10 q-30 12 -40 35 z", ancla:[580,605], etiqueta:[580,540] },
+  "Benagolf":                { path:"M790 70 q-25 35 -5 70 q22 38 75 35 q55 -3 70 -45 q14 -42 -20 -65 q-35 -23 -75 -18 q-30 4 -45 23 z", ancla:[860,110], etiqueta:[862,52] }
+};
+
+var datos = [], filtrados = [], modoDemo = false, clave = "";
+
+var EJEMPLOS = [
+  {id:1, creada:"2026-06-01T10:00:00Z", tipo:"Queja", area:"Parques y Jardines", zona:"Colinas de San Antonio", calle:"Calle Verderol", texto:"La calle está llena de cacas de perro, sobre todo junto al parque.", anonima:true, nombre:null, contacto:null, estado:"Nueva"},
+  {id:2, creada:"2026-06-02T18:30:00Z", tipo:"Queja", area:"Parques y Jardines", zona:"Colinas de San Antonio", calle:"Calle Verderol", texto:"Más papeleras con bolsas para perros, está sucísimo.", anonima:true, nombre:null, contacto:null, estado:"Nueva"},
+  {id:3, creada:"2026-06-03T09:15:00Z", tipo:"Queja", area:"Seguridad Ciudadana", zona:"Montesano", calle:"Calle Mussol", texto:"Coches a mucha velocidad por la noche.", anonima:false, nombre:"J. García", contacto:"600111222", estado:"Vista"},
+  {id:4, creada:"2026-06-03T20:45:00Z", tipo:"Sugerencia", area:"Deportes", zona:"Casco urbano", calle:"Calle Mayor", texto:"Estaría bien una pista de patinaje para los críos.", anonima:true, nombre:null, contacto:null, estado:"Nueva"},
+  {id:5, creada:"2026-06-04T12:00:00Z", tipo:"Pregunta", area:"Movilidad", zona:"San Vicente", calle:null, texto:"¿Cuándo llega la mejora del bus a Valencia?", anonima:false, nombre:"María L.", contacto:"maria@mail.com", estado:"Nueva"},
+  {id:6, creada:"2026-06-05T08:30:00Z", tipo:"Felicitación", area:"Servicios", zona:"Casco urbano", calle:"Plaza del Ayuntamiento", texto:"La plaza ha quedado preciosa después de la reforma.", anonima:true, nombre:null, contacto:null, estado:"Vista"},
+  {id:7, creada:"2026-06-05T16:20:00Z", tipo:"Queja", area:"Medio Ambiente", zona:"Cumbres de San Antonio", calle:"Calle Falcia", texto:"Contenedores desbordados el fin de semana.", anonima:true, nombre:null, contacto:null, estado:"Nueva"},
+  {id:8, creada:"2026-06-06T11:10:00Z", tipo:"Sugerencia", area:"Bienestar Animal", zona:"Benagolf", calle:"Calle Merla", texto:"Un parque canino pequeño en esta zona vendría genial.", anonima:true, nombre:null, contacto:null, estado:"Nueva"},
+  {id:9, creada:"2026-06-06T19:40:00Z", tipo:"Queja", area:"Parques y Jardines", zona:"Colinas de San Antonio", calle:"Calle Estornell", texto:"Columpios rotos en el parque de los pájaros.", anonima:false, nombre:"Pedro R.", contacto:"655444333", estado:"Nueva"},
+];
+
+/* ================= puerta ================= */
+async function sha256(t) {
+  var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+  return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,"0"); }).join("");
+}
+document.getElementById("form-clave").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  var intento = document.getElementById("clave").value;
+  if (await sha256(intento) !== HASH_CLAVE) {
+    document.getElementById("error-clave").style.display = "block";
+    return;
+  }
+  clave = intento;
+  sessionStorage.setItem("aisab_clave", intento);
+  entrar();
+});
+document.getElementById("salir").addEventListener("click", function () {
+  sessionStorage.removeItem("aisab_clave");
+  location.reload();
+});
+
+async function entrar() {
+  document.getElementById("puerta").classList.add("oculto");
+  document.getElementById("panel").classList.remove("oculto");
+  var C = window.AISAB_CONFIG || {};
+  if (C.SUPABASE_URL && C.SUPABASE_ANON_KEY) {
+    try {
+      var r = await fetch(C.SUPABASE_URL + "/rest/v1/rpc/admin_listar", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json", "apikey":C.SUPABASE_ANON_KEY, "Authorization":"Bearer "+C.SUPABASE_ANON_KEY },
+        body: JSON.stringify({ clave: clave })
+      });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      datos = await r.json();
+    } catch (err) {
+      alert("No se ha podido cargar de la base de datos. Se muestra el modo demo.");
+      modoDemo = true; datos = EJEMPLOS.slice();
+    }
+  } else {
+    modoDemo = true; datos = EJEMPLOS.slice();
+  }
+  if (modoDemo) document.getElementById("aviso-demo").classList.remove("oculto");
+  montarFiltros();
+  aplicarFiltros();
+}
+
+/* ================= filtros ================= */
+function montarFiltros() {
+  var areas = Array.from(new Set(datos.map(function(d){ return d.area; }))).sort();
+  var zonas = Object.keys(ZONAS_MAPA);
+  areas.forEach(function(a){ document.getElementById("f-area").add(new Option(a,a)); });
+  zonas.forEach(function(z){ document.getElementById("f-zona").add(new Option(z,z)); });
+  ["f-tipo","f-area","f-zona","f-estado","f-desde","f-hasta"].forEach(function(id){
+    document.getElementById(id).addEventListener("change", aplicarFiltros);
+  });
+  document.getElementById("f-texto").addEventListener("input", aplicarFiltros);
+  document.getElementById("limpiar").addEventListener("click", function(){
+    ["f-tipo","f-area","f-zona","f-estado","f-desde","f-hasta","f-texto"].forEach(function(id){ document.getElementById(id).value=""; });
+    aplicarFiltros();
+  });
+}
+
+function aplicarFiltros() {
+  var t = document.getElementById("f-tipo").value;
+  var a = document.getElementById("f-area").value;
+  var z = document.getElementById("f-zona").value;
+  var es = document.getElementById("f-estado").value;
+  var d1 = document.getElementById("f-desde").value;
+  var d2 = document.getElementById("f-hasta").value;
+  var q = document.getElementById("f-texto").value.toLowerCase();
+  filtrados = datos.filter(function (s) {
+    if (t && s.tipo !== t) return false;
+    if (a && s.area !== a) return false;
+    if (z && s.zona !== z) return false;
+    if (es && s.estado !== es) return false;
+    var f = s.creada.slice(0,10);
+    if (d1 && f < d1) return false;
+    if (d2 && f > d2) return false;
+    if (q && ((s.texto||"") + " " + (s.calle||"")).toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+  document.getElementById("contador").textContent = filtrados.length + " resultado" + (filtrados.length===1?"":"s");
+  pintarMapa();
+  pintarTabla();
+}
+
+/* ================= mapa ================= */
+var svg = document.getElementById("mapa");
+var vista = { x:0, y:0, w:1000, h:700 };
+
+function pintarMapa() {
+  var quejasPorZona = {};
+  filtrados.forEach(function (s) {
+    if (s.tipo === "Queja") quejasPorZona[s.zona] = (quejasPorZona[s.zona]||0) + 1;
+  });
+  var maxQ = Math.max(1, Math.max.apply(null, Object.keys(quejasPorZona).map(function(k){ return quejasPorZona[k]; }).concat([0])));
+
+  var h = "";
+  h += '<rect x="-2000" y="-2000" width="5000" height="5000" fill="#f4f8fc"/>';
+  h += '<path d="M330 -40 q-20 200 30 380 q45 170 0 400" fill="none" stroke="#c4d4e6" stroke-width="26" stroke-linecap="round"/>';
+  h += '<text x="345" y="660" font-size="15" fill="#8aa4c0" font-family="Segoe UI">CV-35</text>';
+  h += '<line x1="300" y1="330" x2="400" y2="330" stroke="#8aa4c0" stroke-width="6" stroke-dasharray="8 6"/>';
+
+  Object.keys(ZONAS_MAPA).forEach(function (z) {
+    var nQ = quejasPorZona[z] || 0;
+    var intens = 0.18 + (nQ / maxQ) * 0.45;
+    h += '<path d="' + ZONAS_MAPA[z].path + '" fill="rgba(24,88,164,' + (nQ ? intens : 0.10) + ')" stroke="#1858a4" stroke-width="2"/>';
+    h += '<text x="' + ZONAS_MAPA[z].etiqueta[0] + '" y="' + ZONAS_MAPA[z].etiqueta[1] + '" text-anchor="middle" font-size="17" font-weight="700" fill="#11427e" font-family="Segoe UI">' + z + (nQ ? " · " + nQ + " queja" + (nQ>1?"s":"") : "") + '</text>';
+  });
+
+  var porZona = {};
+  filtrados.forEach(function (s) {
+    if (!ZONAS_MAPA[s.zona]) return;
+    (porZona[s.zona] = porZona[s.zona] || []).push(s);
+  });
+  Object.keys(porZona).forEach(function (z) {
+    var ancla = ZONAS_MAPA[z].ancla;
+    porZona[z].forEach(function (s, i) {
+      var ang = i * 2.4, rad = 14 * Math.sqrt(i);
+      var x = ancla[0] + Math.cos(ang) * rad;
+      var y = ancla[1] + Math.sin(ang) * rad;
+      h += '<g class="pin" data-id="' + s.id + '" style="cursor:pointer">' +
+           '<circle cx="' + x + '" cy="' + y + '" r="11" fill="' + COLORES_TIPO[s.tipo] + '" stroke="#fff" stroke-width="2.5"/>' +
+           '<title>' + s.tipo + " — " + s.area + (s.calle ? " — " + s.calle : "") + '</title></g>';
+    });
+  });
+
+  svg.innerHTML = h;
+  svg.querySelectorAll(".pin").forEach(function (g) {
+    g.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      abrirFicha(parseInt(g.dataset.id, 10));
+    });
+  });
+  aplicarVista();
+}
+
+function aplicarVista() {
+  svg.setAttribute("viewBox", vista.x + " " + vista.y + " " + vista.w + " " + vista.h);
+}
+function zoom(factor, cx, cy) {
+  var nw = Math.min(2400, Math.max(220, vista.w * factor));
+  var k = nw / vista.w;
+  cx = cx === undefined ? vista.x + vista.w/2 : cx;
+  cy = cy === undefined ? vista.y + vista.h/2 : cy;
+  vista.x = cx - (cx - vista.x) * k;
+  vista.y = cy - (cy - vista.y) * k;
+  vista.w = nw; vista.h = vista.h * k;
+  aplicarVista();
+}
+document.getElementById("zmas").addEventListener("click", function(){ zoom(0.75); });
+document.getElementById("zmenos").addEventListener("click", function(){ zoom(1.33); });
+document.getElementById("zcasa").addEventListener("click", function(){ vista = { x:0, y:0, w:1000, h:700 }; aplicarVista(); });
+
+svg.addEventListener("wheel", function (e) {
+  e.preventDefault();
+  var pt = coordsSVG(e);
+  zoom(e.deltaY > 0 ? 1.15 : 0.87, pt.x, pt.y);
+}, { passive:false });
+
+var arrastre = null;
+svg.addEventListener("pointerdown", function (e) {
+  arrastre = { px:e.clientX, py:e.clientY, vx:vista.x, vy:vista.y };
+  svg.setPointerCapture(e.pointerId);
+});
+svg.addEventListener("pointermove", function (e) {
+  if (!arrastre) return;
+  var esc = vista.w / svg.clientWidth;
+  vista.x = arrastre.vx - (e.clientX - arrastre.px) * esc;
+  vista.y = arrastre.vy - (e.clientY - arrastre.py) * esc;
+  aplicarVista();
+});
+svg.addEventListener("pointerup", function(){ arrastre = null; });
+svg.addEventListener("pointercancel", function(){ arrastre = null; });
+
+function coordsSVG(e) {
+  var r = svg.getBoundingClientRect();
+  return {
+    x: vista.x + (e.clientX - r.left) / r.width * vista.w,
+    y: vista.y + (e.clientY - r.top) / r.height * vista.h
+  };
+}
+
+/* ================= ficha ================= */
+function abrirFicha(id) {
+  var s = datos.find(function (d) { return d.id === id; });
+  if (!s) return;
+  document.getElementById("ficha-vacia").classList.add("oculto");
+  var div = document.getElementById("ficha-datos");
+  div.classList.remove("oculto");
+  var quien = s.anonima ? "Anónima" : ((s.nombre||"—") + " · " + (s.contacto||"—"));
+  div.innerHTML =
+    '<span class="etq" style="background:' + COLORES_TIPO[s.tipo] + '">' + s.tipo + '</span>' +
+    '<span class="etq" style="background:#5a7ca6">' + s.area + '</span>' +
+    '<p>' + escapar(s.texto) + '</p>' +
+    '<p class="meta">📍 ' + s.zona + (s.calle ? " — " + escapar(s.calle) : "") + '</p>' +
+    '<p class="meta">🗓 ' + new Date(s.creada).toLocaleString("es-ES") + ' · ' + escapar(quien) + '</p>' +
+    '<div class="estado">' + ["Nueva","Vista","Resuelta"].map(function (es) {
+      return '<button data-es="' + es + '" class="' + (s.estado===es ? "activo" : "") + '">' + es + '</button>';
+    }).join("") + '</div>';
+  div.querySelectorAll(".estado button").forEach(function (b) {
+    b.addEventListener("click", function () { cambiarEstado(s, b.dataset.es); });
+  });
+}
+
+async function cambiarEstado(s, nuevo) {
+  var C = window.AISAB_CONFIG || {};
+  if (!modoDemo && C.SUPABASE_URL) {
+    try {
+      var r = await fetch(C.SUPABASE_URL + "/rest/v1/rpc/admin_estado", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json", "apikey":C.SUPABASE_ANON_KEY, "Authorization":"Bearer "+C.SUPABASE_ANON_KEY },
+        body: JSON.stringify({ clave: clave, sid: s.id, nuevo: nuevo })
+      });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+    } catch (err) { alert("No se ha podido actualizar el estado."); return; }
+  }
+  s.estado = nuevo;
+  abrirFicha(s.id);
+  aplicarFiltros();
+}
+
+/* ================= tabla ================= */
+function pintarTabla() {
+  var cuerpo = document.getElementById("cuerpo-tabla");
+  cuerpo.innerHTML = filtrados.map(function (s) {
+    return '<tr data-id="' + s.id + '">' +
+      '<td>' + new Date(s.creada).toLocaleDateString("es-ES") + '</td>' +
+      '<td><span class="punto" style="background:' + COLORES_TIPO[s.tipo] + '"></span>' + s.tipo + '</td>' +
+      '<td>' + escapar(s.area) + '</td>' +
+      '<td>' + escapar(s.zona) + '</td>' +
+      '<td>' + escapar(s.calle || "—") + '</td>' +
+      '<td>' + escapar(s.texto.length > 90 ? s.texto.slice(0,90) + "…" : s.texto) + '</td>' +
+      '<td>' + s.estado + '</td></tr>';
+  }).join("");
+  cuerpo.querySelectorAll("tr").forEach(function (tr) {
+    tr.addEventListener("click", function(){ abrirFicha(parseInt(tr.dataset.id,10)); });
+  });
+}
+
+/* ================= exportar ================= */
+document.getElementById("exportar").addEventListener("click", function () {
+  var cab = ["fecha","tipo","area","zona","calle","texto","anonima","nombre","contacto","estado"];
+  var filas = [cab.join(";")].concat(filtrados.map(function (s) {
+    return [s.creada, s.tipo, s.area, s.zona, s.calle||"", '"' + (s.texto||"").replace(/"/g,'""') + '"', s.anonima?"sí":"no", s.nombre||"", s.contacto||"", s.estado].join(";");
+  }));
+  var blob = new Blob(["﻿" + filas.join("\n")], { type:"text/csv;charset=utf-8" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "sugerencias-aisab.csv";
+  a.click();
+});
+
+function escapar(t) {
+  return String(t == null ? "" : t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+/* sesión recordada */
+(function () {
+  var guardada = sessionStorage.getItem("aisab_clave");
+  if (guardada) sha256(guardada).then(function (h) {
+    if (h === HASH_CLAVE) { clave = guardada; entrar(); }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+==========================================================
+ WEB AISAB — INSTRUCCIONES PARA SUBIR AL SERVIDOR
+==========================================================
+
+1) SUBIR LA WEB
+   - Sube TODO el contenido de este ZIP a la carpeta raíz del
+     hosting (donde se sirve www.aisab.es), manteniendo las
+     carpetas tal cual (assets/, css/, js/, admin/).
+   - La página de inicio es index.html.
+
+2) BASE DE DATOS (formulario de quejas/sugerencias)
+   El formulario y el panel de administración funcionan con
+   Supabase (gratuito). Pasos:
+   a) Crear un proyecto en https://supabase.com
+   b) En el proyecto: SQL Editor → pegar el contenido de
+      supabase.sql → Run. Esto crea la tabla y la seguridad.
+   c) En Supabase: Settings → API. Copiar:
+        - Project URL        -> SUPABASE_URL
+        - anon public key    -> SUPABASE_ANON_KEY
+   d) Pegar esos dos valores en el archivo:  js/config.js
+   Hasta que config.js tenga esos dos valores, el formulario
+   NO guarda nada (no hay base de datos conectada).
+
+3) PANEL DE ADMINISTRACIÓN
+   - URL:   www.aisab.es/admin/
+   - Clave: AISAB2010
+   - La clave está protegida (hash) y validada en el servidor
+     de Supabase, no en el navegador.
+
+4) HÉROE DE INICIO
+   - La animación de la plaza son fotogramas en
+     assets/hero-secuencia/ (frame_000.jpg ... frame_088.jpg).
+     No borrar esa carpeta.
+
+==========================================================
