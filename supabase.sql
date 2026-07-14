@@ -29,11 +29,14 @@ create policy "insercion publica" on public.sugerencias
 -- (sin política de SELECT: nadie puede leer directamente)
 
 -- Clave del panel: AISAB2010 (guardada como hash SHA-256)
+-- NOTA: en Supabase, pgcrypto (digest) vive en el esquema `extensions`,
+-- por eso el search_path debe incluir `extensions` y la llamada se cualifica
+-- como `extensions.digest(...)`.
 create or replace function public.admin_listar(clave text)
 returns setof public.sugerencias
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = public, extensions as $$
 begin
-  if encode(digest(clave,'sha256'),'hex')
+  if encode(extensions.digest(clave,'sha256'),'hex')
      <> 'c8f70915b4cb236f9fc9b97a33151a34a26b40e45ad7f8474de59f01b624ebd5' then
     raise exception 'clave incorrecta';
   end if;
@@ -42,9 +45,9 @@ end $$;
 
 create or replace function public.admin_estado(clave text, sid bigint, nuevo text)
 returns void
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = public, extensions as $$
 begin
-  if encode(digest(clave,'sha256'),'hex')
+  if encode(extensions.digest(clave,'sha256'),'hex')
      <> 'c8f70915b4cb236f9fc9b97a33151a34a26b40e45ad7f8474de59f01b624ebd5' then
     raise exception 'clave incorrecta';
   end if;
