@@ -1,8 +1,17 @@
 name: Mantener Supabase despierto
 
-# Supabase (plan Free) pausa el proyecto tras 7 dias sin actividad.
-# Este cron hace una consulta real a la base los lunes y jueves,
-# asi que nunca se llega a los 7 dias.
+# Supabase (plan Free) pausa los proyectos sin actividad. Su criterio,
+# segun la documentacion oficial, NO es "7 dias seguidos a cero" sino:
+#
+#   "A Free plan project is considered inactive if it does not receive
+#    sufficient user database activity over the past week. Typically a
+#    few user requests to the database each day over the previous week
+#    is enough to keep the project from being paused."
+#   https://supabase.com/docs/guides/platform/free-project-pausing
+#
+# Por eso esto se ejecuta A DIARIO, no una o dos veces por semana.
+# Dos veces al dia, ademas, porque los cron de GitHub Actions son
+# best-effort: se retrasan y a veces se saltan ejecuciones si hay carga.
 #
 # La clave de abajo es la ANON KEY: es publica por diseño y ya esta
 # en js/config.js (la usa el navegador de cualquier visitante).
@@ -10,8 +19,9 @@ name: Mantener Supabase despierto
 
 on:
   schedule:
-    - cron: '17 7 * * 1,4'   # lunes y jueves, 07:17 UTC
-  workflow_dispatch:          # permite lanzarlo a mano desde la pestaña Actions
+    - cron: '17 7 * * *'    # todos los dias, 07:17 UTC
+    - cron: '43 19 * * *'   # todos los dias, 19:43 UTC (redundancia)
+  workflow_dispatch:         # permite lanzarlo a mano desde la pestaña Actions
 
 jobs:
   ping:
