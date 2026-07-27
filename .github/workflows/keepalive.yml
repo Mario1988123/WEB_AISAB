@@ -17,26 +17,28 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Llamar a la funcion ping() de Supabase
+      - name: Consultar Supabase para marcar actividad
         env:
           SUPABASE_URL: https://bgurifqwanvrhgmpteiq.supabase.co
           SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJndXJpZnF3YW52cmhnbXB0ZWlxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5NTI5ODksImV4cCI6MjA5OTUyODk4OX0.WGyl7qwKzROf98Mll_7EvpbUoxbXe8kyhS6xwdbt1R4
         run: |
-          respuesta=$(curl -s -w '\n%{http_code}' -X POST \
-            "$SUPABASE_URL/rest/v1/rpc/ping" \
+          # Pide solo la columna `id` y una fila. RLS impide que `anon` lea
+          # nada, asi que la respuesta es siempre []. Pero PostgREST ejecuta
+          # un SELECT real contra Postgres, y eso es lo que cuenta como
+          # actividad para que Supabase no pause el proyecto.
+          #
+          # Nunca imprimimos el cuerpo de la respuesta: si algun dia se
+          # añadiera una politica de SELECT para `anon`, los datos de las
+          # sugerencias acabarian en los logs publicos de Actions.
+          codigo=$(curl -s -o /dev/null -w '%{http_code}' \
+            "$SUPABASE_URL/rest/v1/sugerencias?select=id&limit=1" \
             -H "apikey: $SUPABASE_ANON_KEY" \
-            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            -H "Content-Type: application/json" \
-            -d '{}')
-
-          codigo=$(echo "$respuesta" | tail -n1)
-          cuerpo=$(echo "$respuesta" | sed '$d')
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY")
 
           echo "HTTP $codigo"
-          echo "Respuesta: $cuerpo"
 
           if [ "$codigo" != "200" ]; then
-            echo "::error::El ping a Supabase fallo (HTTP $codigo). Revisa que la funcion ping() exista y que el proyecto no este ya pausado."
+            echo "::error::Supabase no respondio correctamente (HTTP $codigo). Comprueba en el panel si el proyecto esta pausado."
             exit 1
           fi
 
