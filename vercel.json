@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/oficina", "destination": "https://sab-oficina.vercel.app/oficina" },
+    { "source": "/oficina/:ruta*", "destination": "https://sab-oficina.vercel.app/oficina/:ruta*" }
+  ]
+}
