@@ -1,8 +1,27 @@
 {
+  "redirects": [
+    {
+      "source": "/app/",
+      "destination": "/app",
+      "permanent": true
+    }
+  ],
   "rewrites": [
-    { "source": "/oficina", "destination": "https://sab-oficina.vercel.app/oficina" },
-    { "source": "/oficina/:ruta*", "destination": "https://sab-oficina.vercel.app/oficina/:ruta*" },
-    { "source": "/app", "destination": "https://sab-app-two.vercel.app/" },
-    { "source": "/app/:ruta*", "destination": "https://sab-app-two.vercel.app/:ruta*" }
+    {
+      "source": "/oficina",
+      "destination": "https://sab-oficina.vercel.app/oficina"
+    },
+    {
+      "source": "/oficina/:ruta*",
+      "destination": "https://sab-oficina.vercel.app/oficina/:ruta*"
+    },
+    {
+      "source": "/app",
+      "destination": "https://sab-app-two.vercel.app/"
+    },
+    {
+      "source": "/app/:ruta*",
+      "destination": "https://sab-app-two.vercel.app/:ruta*"
+    }
   ]
 }
