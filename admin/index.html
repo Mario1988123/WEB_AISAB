@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
-<title>Panel AISAB — Sugerencias</title>
+<title>Panel AISAB</title>
 <link rel="icon" type="image/png" href="../assets/logo-aisab.png">
 <style>
   :root { --azul:#1858a4; --azul-osc:#11427e; --azul-claro:#e5f0fa; --verde:#2f9e44; --rojo:#d23b3b; --ambar:#e0a200; }
@@ -26,7 +26,6 @@
   header.barra img { height:42px; }
   header.barra h1 { font-size:1.1rem; flex:1; }
   header.barra .demo { background:var(--ambar); color:#3d2c00; font-weight:700; padding:4px 12px; border-radius:999px; font-size:.85rem; }
-  header.barra .enlace-barra { background:rgba(255,255,255,.15); color:#fff; border-radius:999px; padding:8px 16px; font-weight:600; text-decoration:none; }
   header.barra button { background:rgba(255,255,255,.15); color:#fff; border:none; border-radius:999px; padding:8px 16px; cursor:pointer; font-weight:600; }
 
   .contenido { max-width:1280px; margin:0 auto; padding:18px; }
@@ -69,6 +68,55 @@
   tr:hover td { background:#f5f9fd; cursor:pointer; }
   .punto { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; }
   td select { padding:4px 6px; border-radius:6px; border:1px solid #b9cde3; }
+
+  /* ---- pestañas del panel ---- */
+  .pestanas-panel { background:#fff; border-bottom:1px solid #dbe7f3; display:grid; grid-template-columns:repeat(2, minmax(0, 300px)); position:sticky; top:0; z-index:5; }
+  .pestanas-panel button { font:inherit; font-weight:700; font-size:.98rem; color:#5a6b7d; background:none; border:none; border-bottom:3px solid transparent; padding:12px 10px 9px; min-height:52px; cursor:pointer; line-height:1.25; }
+  .pestanas-panel button.activa { color:var(--azul); border-bottom-color:var(--azul); }
+  .globo { display:inline-block; min-width:20px; padding:1px 7px; border-radius:999px; background:var(--rojo); color:#fff; font-size:.75rem; margin-left:4px; }
+
+  /* ---- simpatizantes y afiliados ---- */
+  .sub-pestanas { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+  .sub-pestanas button { font:inherit; font-weight:700; font-size:.9rem; border:1px solid #b9cde3; background:#fff; color:var(--azul-osc); border-radius:999px; padding:8px 16px; cursor:pointer; }
+  .sub-pestanas button.activa { background:var(--azul); border-color:var(--azul); color:#fff; }
+  .aviso-socios { background:#fdecec; border:1px solid var(--rojo); color:#a52a2a; border-radius:10px; padding:12px 14px; font-weight:600; margin-bottom:14px; }
+  .lista-tarjetas { display:grid; gap:12px; }
+  .socio, .elemento { background:#fff; border-radius:14px; padding:16px; box-shadow:0 4px 16px rgba(24,88,164,.08); }
+  .socio .cab, .elemento .cab { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+  .socio h3, .elemento h3 { font-size:1.05rem; color:var(--azul-osc); flex:1; min-width:160px; }
+  .etq { border-radius:999px; padding:3px 10px; font-size:.78rem; font-weight:700; color:#fff; }
+  .etq.Simpatizante { background:var(--verde); }
+  .etq.Afiliado { background:var(--azul); }
+  .etq.Pendiente { background:var(--ambar); color:#3d2c00; }
+  .etq.Activa { background:#e7f5e7; color:#2b6b2b; }
+  .etq.Rechazada { background:#fdecec; color:#a52a2a; }
+  .etq.Bloqueada { background:#3d2c00; }
+  .etq.Todos, .etq.Afiliados { background:#dbe7f3; color:var(--azul-osc); }
+  .meta { font-size:.8rem; color:#5a6b7d; margin-top:4px; }
+  .contacto { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  .contacto a { background:var(--azul-claro); color:var(--azul-osc); border-radius:999px; padding:7px 12px; font-size:.86rem; font-weight:600; text-decoration:none; word-break:break-all; }
+  .acciones { margin-top:12px; display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .acciones button, .acciones select { font:inherit; border:1px solid #b9cde3; background:#fff; border-radius:999px; padding:6px 12px; cursor:pointer; font-weight:600; font-size:.82rem; }
+  .acciones button.activo { background:var(--azul); color:#fff; border-color:var(--azul); }
+  .acciones button.peligro { color:var(--rojo); border-color:#f1b5b5; }
+  .acciones .separa { flex-basis:100%; height:0; }
+  .clave-nueva { margin-top:12px; background:#fff6dd; border:1px solid #f0d58a; border-radius:10px; padding:12px; font-size:.9rem; }
+  .clave-nueva code { font-size:1.05rem; font-weight:700; user-select:all; background:#fff; padding:2px 8px; border-radius:6px; word-break:break-all; }
+  .caja-form { background:#fff; border-radius:14px; padding:16px; box-shadow:0 4px 16px rgba(24,88,164,.08); margin-bottom:16px; display:grid; gap:12px; }
+  .caja-form h2 { color:var(--azul); font-size:1.05rem; }
+  .caja-form label { display:block; font-size:.8rem; font-weight:700; color:var(--azul-osc); margin-bottom:4px; }
+  .caja-form input[type=text], .caja-form input[type=url], .caja-form textarea, .caja-form select { width:100%; padding:10px 12px; border:1px solid #b9cde3; border-radius:10px; font:inherit; font-size:1rem; background:#fff; }
+  .caja-form input[type=file] { font:inherit; font-size:.95rem; max-width:100%; }
+  .caja-form textarea { min-height:110px; resize:vertical; }
+  .caja-form .botones { display:flex; gap:8px; flex-wrap:wrap; }
+  .caja-form button { font:inherit; font-weight:700; border:none; border-radius:999px; padding:10px 18px; cursor:pointer; background:var(--azul); color:#fff; }
+  .caja-form button.suave { background:#dbe7f3; color:var(--azul-osc); }
+  .caja-form button:disabled { opacity:.6; cursor:wait; }
+  .caja-form .ayuda { font-size:.8rem; color:#5a6b7d; }
+  .elemento .texto { white-space:pre-wrap; font-size:.92rem; margin-top:8px; color:#3b4a5a; }
+  .elemento a.enlace { display:inline-block; margin-top:6px; color:var(--azul); font-weight:600; word-break:break-all; font-size:.9rem; }
+  .vacio { text-align:center; color:#5a6b7d; padding:30px 10px; background:#fff; border-radius:14px; }
+  @media (max-width:600px) { .filtros > div { flex:1 1 140px; } .filtros select, .filtros input { width:100%; } }
 </style>
 </head>
 <body>
@@ -77,7 +125,7 @@
 <div id="puerta">
   <form class="caja" id="form-clave">
     <img src="../assets/logo-aisab.png" alt="AISAB">
-    <h1>Panel de sugerencias</h1>
+    <h1>Panel AISAB</h1>
     <input type="password" id="clave" placeholder="Contraseña" autocomplete="current-password" autofocus>
     <button type="submit">Entrar</button>
     <p class="error" id="error-clave">Contraseña incorrecta</p>
@@ -88,14 +136,18 @@
 <div id="panel" class="oculto">
   <header class="barra">
     <img src="../assets/logo-aisab.png" alt="AISAB">
-    <h1>Sugerencias de los vecinos</h1>
+    <h1>Panel AISAB</h1>
     <span class="demo oculto" id="aviso-demo">MODO DEMO — sin conexión a la base de datos</span>
-    <a class="enlace-barra" href="afiliados.html">Simpatizantes y afiliados</a>
     <button id="exportar">Exportar CSV</button>
     <button id="salir">Salir</button>
   </header>
 
-  <div class="contenido">
+  <nav class="pestanas-panel" aria-label="Secciones del panel">
+    <button type="button" class="activa" data-pestana="sugerencias">Sugerencias y quejas</button>
+    <button type="button" data-pestana="socios">Simpatizantes y afiliados <span class="globo oculto" id="so-globo"></span></button>
+  </nav>
+
+  <div class="contenido" id="tab-sugerencias">
     <div class="filtros">
       <div><label>Tipo</label><select id="f-tipo"><option value="">Todos</option><option>Queja</option><option>Sugerencia</option><option>Pregunta</option><option>Felicitación</option></select></div>
       <div><label>Área</label><select id="f-area"><option value="">Todas</option></select></div>
@@ -137,6 +189,52 @@
         <tbody id="cuerpo-tabla"></tbody>
       </table>
     </div>
+  </div>
+
+  <!-- ================= SIMPATIZANTES Y AFILIADOS ================= -->
+  <div class="contenido oculto" id="tab-socios">
+    <p class="aviso-socios oculto" id="so-aviso">No se han podido cargar los datos de simpatizantes y afiliados.</p>
+    <div class="sub-pestanas">
+      <button type="button" class="activa" data-sub="personas">Personas</button>
+      <button type="button" data-sub="comunicados">Comunicados</button>
+      <button type="button" data-sub="documentos">Documentos</button>
+    </div>
+
+    <section id="sub-personas">
+      <div class="filtros">
+        <div><label for="so-f-tipo">Tipo</label><select id="so-f-tipo"><option value="">Todos</option><option>Simpatizante</option><option value="Afiliado">Afiliado/a</option></select></div>
+        <div><label for="so-f-estado">Estado</label><select id="so-f-estado"><option value="">Todos</option><option>Pendiente</option><option>Activa</option><option>Rechazada</option></select></div>
+        <div style="flex:1;min-width:180px"><label for="so-f-texto">Buscar</label><input id="so-f-texto" type="search" placeholder="Nombre, correo o teléfono" style="width:100%"></div>
+        <span class="chip" id="so-contador">0</span>
+        <button type="button" id="so-exportar">Exportar CSV</button>
+      </div>
+      <div class="lista-tarjetas" id="so-lista"></div>
+    </section>
+
+    <section id="sub-comunicados" class="oculto">
+      <form class="caja-form" id="so-form-com" novalidate>
+        <h2 id="so-com-cabecera">Nuevo comunicado</h2>
+        <div><label for="so-com-titulo">Título</label><input type="text" id="so-com-titulo" maxlength="160"></div>
+        <div><label for="so-com-texto">Texto</label><textarea id="so-com-texto"></textarea></div>
+        <div><label for="so-com-enlace">Enlace (opcional)</label><input type="url" id="so-com-enlace" placeholder="https://…"></div>
+        <div><label for="so-com-para">Lo ven</label><select id="so-com-para"><option value="Todos">Todos los socios</option><option value="Afiliados">Solo afiliados</option></select></div>
+        <p class="ayuda">Solo lo ven las cuentas activas. Se publica tal como lo escribas (no se traduce).</p>
+        <div class="botones"><button type="submit">Publicar</button><button type="button" class="suave oculto" id="so-com-cancelar">Cancelar edición</button></div>
+      </form>
+      <div class="lista-tarjetas" id="so-lista-com"></div>
+    </section>
+
+    <section id="sub-documentos" class="oculto">
+      <form class="caja-form" id="so-form-doc" novalidate>
+        <h2>Subir documento</h2>
+        <div><label for="so-doc-titulo">Título</label><input type="text" id="so-doc-titulo" maxlength="160"></div>
+        <div><label for="so-doc-desc">Descripción (opcional)</label><input type="text" id="so-doc-desc" maxlength="300"></div>
+        <div><label for="so-doc-archivo">Archivo (PDF u otro, máximo 8 MB)</label><input type="file" id="so-doc-archivo" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"></div>
+        <div><label for="so-doc-para">Lo ven</label><select id="so-doc-para"><option value="Todos">Todos los socios</option><option value="Afiliados">Solo afiliados</option></select></div>
+        <div class="botones"><button type="submit">Subir</button></div>
+      </form>
+      <div class="lista-tarjetas" id="so-lista-doc"></div>
+    </section>
   </div>
 </div>
 
@@ -437,6 +535,326 @@ function escapar(t) {
   var guardada = sessionStorage.getItem("aisab_clave");
   if (guardada) sha256(guardada).then(function (h) {
     if (h === HASH_CLAVE) { clave = guardada; entrar(); }
+  });
+})();
+</script>
+<script>
+"use strict";
+/* ============================================================
+   Pestañas del panel + simpatizantes y afiliados
+   Usa la misma clave que las sugerencias (variable global `clave`).
+   ============================================================ */
+(function () {
+  var C = window.AISAB_CONFIG || {};
+  var ESTADOS = ["Pendiente", "Activa", "Rechazada"];
+  var socios = [], comunicados = [], documentos = [], cargado = false, editandoCom = null;
+  function $(id) { return document.getElementById(id); }
+  function esc(t) {
+    return String(t == null ? "" : t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+  function fecha(f, conHora) {
+    return f ? new Date(f).toLocaleString("es-ES", conHora ? { dateStyle:"medium", timeStyle:"short" } : { dateStyle:"medium" }) : "—";
+  }
+  function rpc(nombre, cuerpo) {
+    return fetch(C.SUPABASE_URL + "/rest/v1/rpc/" + nombre, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json", "apikey":C.SUPABASE_ANON_KEY, "Authorization":"Bearer "+C.SUPABASE_ANON_KEY },
+      body: JSON.stringify(cuerpo)
+    }).then(function (r) {
+      return r.text().then(function (t) {
+        var d = t ? JSON.parse(t) : null;
+        if (!r.ok) throw new Error((d && d.message) || "HTTP " + r.status);
+        return d;
+      });
+    });
+  }
+
+  /* ---------- pestañas ---------- */
+  function abrirPestana(p) {
+    document.querySelectorAll(".pestanas-panel button").forEach(function (b) { b.classList.toggle("activa", b.dataset.pestana === p); });
+    $("tab-sugerencias").classList.toggle("oculto", p !== "sugerencias");
+    $("tab-socios").classList.toggle("oculto", p !== "socios");
+    $("exportar").classList.toggle("oculto", p !== "sugerencias");
+    try { sessionStorage.setItem("aisab_pestana", p); } catch (e) {}
+    if (p === "socios" && !cargado) cargarTodo();
+  }
+  document.querySelectorAll(".pestanas-panel button").forEach(function (b) {
+    b.addEventListener("click", function () { abrirPestana(b.dataset.pestana); });
+  });
+  document.querySelectorAll(".sub-pestanas button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll(".sub-pestanas button").forEach(function (x) { x.classList.toggle("activa", x === b); });
+      ["personas", "comunicados", "documentos"].forEach(function (s) { $("sub-" + s).classList.toggle("oculto", s !== b.dataset.sub); });
+    });
+  });
+
+  // al entrar en el panel (clave correcta) se cargan los datos y el aviso de pendientes
+  new MutationObserver(function () {
+    if (!$("panel").classList.contains("oculto") && !cargado) {
+      cargarTodo();
+      var guardada = null;
+      try { guardada = sessionStorage.getItem("aisab_pestana"); } catch (e) {}
+      if (guardada === "socios") abrirPestana("socios");
+    }
+  }).observe($("panel"), { attributes: true, attributeFilter: ["class"] });
+
+  function cargarTodo() {
+    cargado = true;
+    return Promise.all([
+      rpc("admin_socios", { clave: clave }),
+      rpc("admin_comunicados", { clave: clave }),
+      rpc("admin_documentos", { clave: clave })
+    ]).then(function (r) {
+      socios = r[0]; comunicados = r[1]; documentos = r[2];
+      $("so-aviso").classList.add("oculto");
+    }).catch(function () {
+      cargado = false;
+      $("so-aviso").classList.remove("oculto");
+    }).then(function () {
+      pintarSocios(); pintarComunicados(); pintarDocumentos();
+    });
+  }
+
+  /* ---------- personas ---------- */
+  ["so-f-tipo", "so-f-estado", "so-f-texto"].forEach(function (id) { $(id).addEventListener("input", pintarSocios); });
+
+  function filtrarSocios() {
+    var tipo = $("so-f-tipo").value, estado = $("so-f-estado").value, texto = $("so-f-texto").value.trim().toLowerCase();
+    return socios.filter(function (s) {
+      if (tipo && s.tipo !== tipo) return false;
+      if (estado && s.estado !== estado) return false;
+      if (texto && (s.nombre + " " + s.apellidos + " " + s.correo + " " + s.telefono).toLowerCase().indexOf(texto) < 0) return false;
+      return true;
+    });
+  }
+
+  function pintarSocios() {
+    var pendientes = socios.filter(function (s) { return s.estado === "Pendiente"; }).length;
+    $("so-globo").textContent = pendientes;
+    $("so-globo").classList.toggle("oculto", !pendientes);
+
+    var lista = filtrarSocios();
+    $("so-contador").textContent = lista.length + (lista.length === 1 ? " persona" : " personas");
+    if (!lista.length) {
+      $("so-lista").innerHTML = '<p class="vacio">' + (socios.length ? "Nadie con estos filtros." : "Todavía no se ha registrado nadie.") + "</p>";
+      return;
+    }
+    $("so-lista").innerHTML = lista.map(function (s) {
+      var tel = String(s.telefono).replace(/[^\d+]/g, "");
+      var wa = tel.replace(/^\+/, ""); if (wa.length === 9) wa = "34" + wa;
+      return '<article class="socio" data-id="' + s.id + '">' +
+        '<div class="cab"><h3>' + esc(s.nombre + " " + s.apellidos) + '</h3>' +
+          '<span class="etq ' + esc(s.tipo) + '">' + (s.tipo === "Afiliado" ? "Afiliado/a" : "Simpatizante") + '</span>' +
+          '<span class="etq ' + esc(s.estado) + '">' + esc(s.estado) + '</span>' +
+          (s.bloqueada ? '<span class="etq Bloqueada">Bloqueada 15 min</span>' : "") + '</div>' +
+        '<p class="meta">Solicitud: ' + fecha(s.creada, true) + ' · Idioma: ' + (s.idioma === "va" ? "Valencià" : "Castellano") +
+          ' · Último acceso: ' + fecha(s.ultimo_acceso, true) + '</p>' +
+        '<div class="contacto">' +
+          '<a href="tel:' + esc(tel) + '">' + esc(s.telefono) + '</a>' +
+          '<a href="https://wa.me/' + esc(wa) + '" target="_blank" rel="noopener">WhatsApp</a>' +
+          '<a href="mailto:' + esc(s.correo) + '">' + esc(s.correo) + '</a>' +
+        '</div>' +
+        '<div class="acciones">' +
+          ESTADOS.map(function (e) {
+            return '<button type="button" data-accion="estado" data-valor="' + e + '"' + (s.estado === e ? ' class="activo"' : "") + '>' +
+              (s.estado === e ? e : e === "Activa" ? "Activar" : e === "Rechazada" ? "Rechazar" : "Pendiente") + '</button>';
+          }).join("") +
+          '<span class="separa"></span>' +
+          '<select data-accion="tipo" aria-label="Tipo">' +
+            '<option value="Simpatizante"' + (s.tipo === "Simpatizante" ? " selected" : "") + '>Simpatizante</option>' +
+            '<option value="Afiliado"' + (s.tipo === "Afiliado" ? " selected" : "") + '>Afiliado/a</option>' +
+          '</select>' +
+          '<button type="button" data-accion="clave">Nueva contraseña</button>' +
+          '<button type="button" data-accion="borrar" class="peligro">Borrar</button>' +
+        '</div>' +
+        '<div class="clave-nueva oculto"></div>' +
+      '</article>';
+    }).join("");
+  }
+
+  function socioDe(el) {
+    var art = el.closest(".socio");
+    var id = Number(art.dataset.id);
+    return { art: art, s: socios.find(function (x) { return x.id === id; }) };
+  }
+
+  $("so-lista").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-accion]");
+    if (!b) return;
+    var o = socioDe(b), s = o.s;
+    var accion = b.dataset.accion;
+    if (accion === "estado") {
+      var anterior = s.estado;
+      s.estado = b.dataset.valor;
+      pintarSocios();
+      rpc("admin_socio_estado", { clave: clave, sid: s.id, nuevo: s.estado }).catch(function () {
+        s.estado = anterior; pintarSocios();
+        alert("No se ha podido guardar el estado. Inténtalo de nuevo.");
+      });
+    } else if (accion === "clave") {
+      if (!confirm("¿Generar una contraseña nueva para " + s.nombre + " " + s.apellidos + "? La que tiene ahora dejará de valer.")) return;
+      b.disabled = true;
+      rpc("admin_socio_nueva_clave", { clave: clave, sid: s.id }).then(function (nueva) {
+        var caja = o.art.querySelector(".clave-nueva");
+        var texto = "Hola " + s.nombre + ", tu contraseña provisional para www.aisab.es/afiliados es: " + nueva +
+          "\nCámbiala al entrar, en «Mis datos y contraseña».";
+        var tel = String(s.telefono).replace(/\D/g, ""); if (tel.length === 9) tel = "34" + tel;
+        caja.innerHTML = 'Contraseña provisional: <code>' + esc(nueva) + '</code><br>Pásasela a ' + esc(s.nombre) +
+          ' y que la cambie al entrar. <a href="https://wa.me/' + esc(tel) + '?text=' + encodeURIComponent(texto) + '" target="_blank" rel="noopener">Abrir WhatsApp con el mensaje</a>';
+        caja.classList.remove("oculto");
+      }).catch(function () {
+        alert("No se ha podido generar la contraseña. Inténtalo de nuevo.");
+      }).then(function () { b.disabled = false; });
+    } else if (accion === "borrar") {
+      if (!confirm("¿Borrar a " + s.nombre + " " + s.apellidos + " y todos sus datos? No se puede deshacer.")) return;
+      rpc("admin_socio_borrar", { clave: clave, sid: s.id }).then(function () {
+        socios = socios.filter(function (x) { return x.id !== s.id; });
+        pintarSocios();
+      }).catch(function () { alert("No se ha podido borrar. Inténtalo de nuevo."); });
+    }
+  });
+
+  $("so-lista").addEventListener("change", function (e) {
+    var sel = e.target.closest('select[data-accion="tipo"]');
+    if (!sel) return;
+    var s = socioDe(sel).s, anterior = s.tipo;
+    s.tipo = sel.value;
+    pintarSocios();
+    rpc("admin_socio_tipo", { clave: clave, sid: s.id, nuevo: s.tipo }).catch(function () {
+      s.tipo = anterior; pintarSocios();
+      alert("No se ha podido cambiar el tipo. Inténtalo de nuevo.");
+    });
+  });
+
+  $("so-exportar").addEventListener("click", function () {
+    var cab = ["fecha","tipo","estado","nombre","apellidos","correo","telefono","idioma","ultimo_acceso"];
+    var filas = [cab.join(";")].concat(filtrarSocios().map(function (s) {
+      return [s.creada, s.tipo, s.estado, s.nombre, s.apellidos, s.correo, s.telefono, s.idioma, s.ultimo_acceso].map(function (v) {
+        return '"' + String(v == null ? "" : v).replace(/"/g,'""') + '"';
+      }).join(";");
+    }));
+    var blob = new Blob(["﻿" + filas.join("\n")], { type:"text/csv;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "simpatizantes-afiliados-aisab.csv";
+    a.click();
+  });
+
+  /* ---------- comunicados ---------- */
+  function pintarComunicados() {
+    if (!comunicados.length) { $("so-lista-com").innerHTML = '<p class="vacio">Todavía no hay comunicados.</p>'; return; }
+    $("so-lista-com").innerHTML = comunicados.map(function (c) {
+      return '<article class="elemento" data-id="' + c.id + '">' +
+        '<div class="cab"><h3>' + esc(c.titulo) + '</h3><span class="etq ' + esc(c.para) + '">' + (c.para === "Afiliados" ? "Solo afiliados" : "Todos") + '</span></div>' +
+        '<p class="meta">' + fecha(c.creado, true) + '</p>' +
+        (c.texto ? '<p class="texto">' + esc(c.texto) + '</p>' : "") +
+        (c.enlace ? '<a class="enlace" href="' + esc(c.enlace) + '" target="_blank" rel="noopener">' + esc(c.enlace) + '</a>' : "") +
+        '<div class="acciones"><button type="button" data-accion="editar">Editar</button><button type="button" data-accion="borrar" class="peligro">Borrar</button></div>' +
+      '</article>';
+    }).join("");
+  }
+
+  function limpiarFormCom() {
+    editandoCom = null;
+    $("so-form-com").reset();
+    $("so-com-cabecera").textContent = "Nuevo comunicado";
+    $("so-com-cancelar").classList.add("oculto");
+  }
+  $("so-com-cancelar").addEventListener("click", limpiarFormCom);
+
+  $("so-lista-com").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-accion]");
+    if (!b) return;
+    var id = Number(b.closest(".elemento").dataset.id);
+    var c = comunicados.find(function (x) { return x.id === id; });
+    if (b.dataset.accion === "editar") {
+      editandoCom = c.id;
+      $("so-com-titulo").value = c.titulo; $("so-com-texto").value = c.texto || "";
+      $("so-com-enlace").value = c.enlace || ""; $("so-com-para").value = c.para;
+      $("so-com-cabecera").textContent = "Editar comunicado";
+      $("so-com-cancelar").classList.remove("oculto");
+      $("so-form-com").scrollIntoView({ behavior: "smooth" });
+    } else if (b.dataset.accion === "borrar") {
+      if (!confirm("¿Borrar el comunicado «" + c.titulo + "»?")) return;
+      rpc("admin_comunicado_borrar", { clave: clave, cid: c.id }).then(function () {
+        comunicados = comunicados.filter(function (x) { return x.id !== c.id; });
+        if (editandoCom === c.id) limpiarFormCom();
+        pintarComunicados();
+      }).catch(function () { alert("No se ha podido borrar. Inténtalo de nuevo."); });
+    }
+  });
+
+  $("so-form-com").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var titulo = $("so-com-titulo").value.trim(), enlace = $("so-com-enlace").value.trim();
+    if (!titulo) { alert("Escribe un título."); return; }
+    if (enlace && !/^https?:\/\//i.test(enlace)) { alert("El enlace tiene que empezar por https://"); return; }
+    var boton = e.currentTarget.querySelector('button[type="submit"]');
+    boton.disabled = true;
+    rpc("admin_comunicado_guardar", { clave: clave, datos: {
+      id: editandoCom, titulo: titulo, texto: $("so-com-texto").value.trim(), enlace: enlace, para: $("so-com-para").value
+    } }).then(function () {
+      limpiarFormCom();
+      return rpc("admin_comunicados", { clave: clave });
+    }).then(function (r) {
+      comunicados = r; pintarComunicados();
+    }).catch(function () {
+      alert("No se ha podido publicar. Inténtalo de nuevo.");
+    }).then(function () { boton.disabled = false; });
+  });
+
+  /* ---------- documentos ---------- */
+  function tamano(b) { return b < 1048576 ? Math.max(1, Math.round(b / 1024)) + " KB" : (b / 1048576).toFixed(1).replace(".", ",") + " MB"; }
+
+  function pintarDocumentos() {
+    if (!documentos.length) { $("so-lista-doc").innerHTML = '<p class="vacio">Todavía no hay documentos.</p>'; return; }
+    $("so-lista-doc").innerHTML = documentos.map(function (d) {
+      return '<article class="elemento" data-id="' + d.id + '">' +
+        '<div class="cab"><h3>' + esc(d.titulo) + '</h3><span class="etq ' + esc(d.para) + '">' + (d.para === "Afiliados" ? "Solo afiliados" : "Todos") + '</span></div>' +
+        '<p class="meta">' + fecha(d.creado, true) + ' · ' + esc(d.nombre_archivo) + ' · ' + tamano(d.tamano) + '</p>' +
+        (d.descripcion ? '<p class="texto">' + esc(d.descripcion) + '</p>' : "") +
+        '<div class="acciones"><button type="button" data-accion="borrar" class="peligro">Borrar</button></div>' +
+      '</article>';
+    }).join("");
+  }
+
+  $("so-lista-doc").addEventListener("click", function (e) {
+    var b = e.target.closest('button[data-accion="borrar"]');
+    if (!b) return;
+    var id = Number(b.closest(".elemento").dataset.id);
+    var d = documentos.find(function (x) { return x.id === id; });
+    if (!confirm("¿Borrar el documento «" + d.titulo + "»?")) return;
+    rpc("admin_documento_borrar", { clave: clave, did: d.id }).then(function () {
+      documentos = documentos.filter(function (x) { return x.id !== d.id; });
+      pintarDocumentos();
+    }).catch(function () { alert("No se ha podido borrar. Inténtalo de nuevo."); });
+  });
+
+  $("so-form-doc").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var titulo = $("so-doc-titulo").value.trim(), archivo = $("so-doc-archivo").files[0];
+    if (!titulo) { alert("Escribe un título."); return; }
+    if (!archivo) { alert("Elige un archivo."); return; }
+    if (archivo.size > 8 * 1024 * 1024) { alert("El archivo pasa de 8 MB. Redúcelo antes de subirlo."); return; }
+    var boton = e.currentTarget.querySelector('button[type="submit"]');
+    boton.disabled = true; boton.textContent = "Subiendo…";
+    var lector = new FileReader();
+    lector.onload = function () {
+      var base64 = String(lector.result).split(",")[1] || "";
+      rpc("admin_documento_subir", { clave: clave, datos: {
+        titulo: titulo, descripcion: $("so-doc-desc").value.trim(), nombre_archivo: archivo.name,
+        tipo_mime: archivo.type || "application/octet-stream", para: $("so-doc-para").value, base64: base64
+      } }).then(function () {
+        $("so-form-doc").reset();
+        return rpc("admin_documentos", { clave: clave });
+      }).then(function (r) {
+        documentos = r; pintarDocumentos();
+      }).catch(function () {
+        alert("No se ha podido subir el documento. Inténtalo de nuevo.");
+      }).then(function () { boton.disabled = false; boton.textContent = "Subir"; });
+    };
+    lector.onerror = function () { boton.disabled = false; boton.textContent = "Subir"; alert("No se ha podido leer el archivo."); };
+    lector.readAsDataURL(archivo);
   });
 })();
 </script>

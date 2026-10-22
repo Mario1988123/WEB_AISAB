@@ -81,6 +81,22 @@ img { max-width: 100%; display: block; }
 }
 .menu a.cta:hover { text-decoration: none; filter: brightness(1.1); }
 
+/* Selector de idioma (Cas / Val) */
+.idiomas { display: inline-flex; background: rgba(255,255,255,.16); border-radius: 999px; padding: 3px; gap: 2px; flex: none; }
+.idiomas button {
+  font: inherit; font-size: .85rem; font-weight: 700; color: var(--blanco); background: none; border: none;
+  border-radius: 999px; padding: 6px 11px; min-height: 36px; min-width: 44px; cursor: pointer;
+}
+.idiomas button.activo { background: var(--blanco); color: var(--azul-oscuro); }
+.cabecera-overlay:not(.solida) .idiomas { background: rgba(8,30,60,.35); }
+.cabecera-overlay .cabecera-inner > .idiomas { margin-left: auto; }
+/* En escritorio el menú de la portada ocupa casi todo el ancho:
+   solo se enseña el idioma al que se puede cambiar */
+@media (min-width: 761px) {
+  .cabecera-overlay .idiomas button.activo { display: none; }
+  .cabecera-overlay .idiomas button { padding: 6px 10px; }
+}
+
 /* Logo solo-árbol y menú hamburguesa: ocultos en escritorio */
 .logo-arbol { display: none; }
 .menu-check { display: none; }

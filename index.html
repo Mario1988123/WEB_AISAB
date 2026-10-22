@@ -17,6 +17,7 @@
       <img class="logo logo-completo" src="assets/logo-aisab.png" alt="AISAB — Agrupación Independiente San Antonio de Benagéber">
       <img class="logo logo-arbol" src="assets/logo-aisab-arbol.png" alt="AISAB">
     </a>
+    <div class="idiomas" role="group" aria-label="Idioma"><button type="button" data-idioma="es" lang="es">Cas</button><button type="button" data-idioma="va" lang="ca-ES-valencia">Val</button></div>
     <input type="checkbox" id="menu-check" class="menu-check">
     <label for="menu-check" class="menu-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></label>
     <nav class="menu">
@@ -350,6 +351,8 @@
 
 <script src="js/config.js"></script>
 <script src="js/datos-calles.js"></script>
+<script src="js/valenciano.js"></script>
+<script src="js/idioma.js"></script>
 <script>
 /* ============================================================
    CONFIGURACIÓN — destino de las sugerencias (pendiente de Mario)
@@ -387,7 +390,7 @@ function crearFormulario(contenedor, sufijo) {
     if (form.querySelector(".f-web").value) return; // honeypot anti-spam
     const area = selArea.value, zona = selZona.value;
     const texto = form.querySelector(".f-texto").value.trim();
-    if (!area || !zona || !texto) { alert("Por favor, rellena área, zona y mensaje."); return; }
+    if (!area || !zona || !texto) { alert(AISAB_IDIOMA.t("Por favor, rellena área, zona y mensaje.")); return; }
 
     const anonima = form.querySelector(".f-modo:checked").value === "anonima";
     const datos = {
@@ -406,15 +409,14 @@ function crearFormulario(contenedor, sufijo) {
     try {
       if (C.SUPABASE_URL && C.SUPABASE_ANON_KEY) {
         boton.disabled = true; boton.textContent = "Enviando…";
-        const r = await fetch(C.SUPABASE_URL + "/rest/v1/sugerencias", {
+        const r = await fetch(C.SUPABASE_URL + "/rest/v1/rpc/enviar_sugerencia", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "apikey": C.SUPABASE_ANON_KEY,
-            "Authorization": "Bearer " + C.SUPABASE_ANON_KEY,
-            "Prefer": "return=minimal"
+            "Authorization": "Bearer " + C.SUPABASE_ANON_KEY
           },
-          body: JSON.stringify(datos)
+          body: JSON.stringify({ datos: datos })
         });
         if (!r.ok) throw new Error("HTTP " + r.status);
         form.reset();
@@ -428,7 +430,7 @@ function crearFormulario(contenedor, sufijo) {
       }
       form.querySelector(".aviso-ok").classList.add("visible");
     } catch (err) {
-      alert("No se ha podido enviar. Inténtalo de nuevo en un momento.");
+      alert(AISAB_IDIOMA.t("No se ha podido enviar. Inténtalo de nuevo en un momento."));
     } finally {
       boton.disabled = false; boton.textContent = "Enviar sugerencia";
     }

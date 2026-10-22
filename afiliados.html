@@ -15,217 +15,564 @@
 <link rel="icon" type="image/png" href="assets/logo-aisab.png">
 <style>
   /* ---- solo esta página ---- */
-  body { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
-  .registro { background: var(--azul-claro); padding: 36px 0 56px; flex: 1; }
-  .registro .formulario { max-width: 560px; }
-  .registro .fila-doble { gap: 0 16px; }
-  .registro h1 { color: var(--azul); font-size: clamp(1.7rem, 7vw, 2.2rem); line-height: 1.15; margin-bottom: 8px; }
-  .registro .entradilla { color: #5a6b7d; margin-bottom: 26px; }
-  .registro .campo input[type="text"],
-  .registro .campo input[type="email"],
-  .registro .campo input[type="tel"] { min-height: 50px; }
-  .registro .campo.error input { border-color: #d23b3b; }
-  .registro .campo .error-txt { display: none; color: #d23b3b; font-size: .84rem; font-weight: 600; margin-top: 5px; }
-  .registro .campo.error .error-txt { display: block; }
+  body { background: var(--azul-claro); min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+  .acceso { flex: 1; width: 100%; max-width: 520px; margin: 0 auto; padding: 18px 16px 48px; }
 
-  .registro fieldset { border: none; margin-bottom: 18px; }
-  .registro legend { font-weight: 600; color: var(--azul-oscuro); margin-bottom: 8px; }
-  .tipos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .tipos label {
-    border: 2px solid #b9cde3; border-radius: 12px; padding: 14px;
-    cursor: pointer; display: flex; flex-direction: column; gap: 4px;
-    -webkit-tap-highlight-color: transparent;
+  .barra-acceso { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+  .volver { color: var(--azul-oscuro); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
+  .volver:hover { text-decoration: underline; }
+  .selector-idioma {
+    appearance: none; -webkit-appearance: none; font: inherit; font-weight: 700; font-size: .9rem; color: var(--azul-oscuro);
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14'%3E%3Cpath d='M1 5l4-4 4 4M1 9l4 4 4-4' fill='none' stroke='%2311427e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+    border: 1px solid #b9cde3; border-radius: 10px; padding: 9px 34px 9px 14px; min-height: 44px; cursor: pointer;
   }
+
+  .sello { width: 64px; height: 64px; border-radius: 16px; background: var(--azul-logo); display: grid; place-items: center; margin: 0 auto 16px; box-shadow: var(--sombra); }
+  .sello img { height: 46px; width: auto; }
+
+  .pestanas { display: grid; grid-template-columns: 1fr 1fr; background: #dbe7f3; border-radius: 14px; padding: 5px; margin-bottom: 22px; }
+  .pestanas button {
+    font: inherit; font-weight: 700; font-size: 1.02rem; color: #5a6b7d; background: none; border: none;
+    border-radius: 10px; padding: 12px 8px; min-height: 48px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .pestanas button[aria-selected="true"] { background: #fff; color: var(--azul-oscuro); box-shadow: 0 2px 8px rgba(17,66,126,.14); }
+
+  .tarjeta { background: #fff; border-radius: 18px; padding: 26px 20px; box-shadow: var(--sombra); }
+  .tarjeta h1 { color: var(--azul); font-size: clamp(1.7rem, 7vw, 2.1rem); line-height: 1.15; margin-bottom: 8px; }
+  .tarjeta .entradilla { color: #5a6b7d; margin-bottom: 22px; }
+
+  .campo input[type="text"], .campo input[type="email"], .campo input[type="tel"], .campo input[type="password"] {
+    width: 100%; padding: 12px 14px; min-height: 52px; border: 1px solid #c9d8e8; border-radius: 12px;
+    font-size: 1rem; font-family: inherit; background: #f7fafd;
+  }
+  .campo input:focus { outline: 2px solid var(--azul); border-color: var(--azul); background: #fff; }
+  .campo.error input { border-color: #d23b3b; }
+  .error-txt { display: none; color: #d23b3b; font-size: .84rem; font-weight: 600; margin-top: 5px; }
+  .campo.error .error-txt { display: block; }
+  .acceso .fila-doble { gap: 0 14px; }
+
+  .con-ojo { position: relative; }
+  .con-ojo input { padding-right: 56px !important; }
+  .ojo { position: absolute; right: 4px; top: 4px; width: 44px; height: 44px; border: none; background: none; color: var(--azul-oscuro); cursor: pointer; display: grid; place-items: center; border-radius: 10px; }
+  .ojo .abierto { display: none; }
+  .ojo[aria-pressed="true"] .abierto { display: block; }
+  .ojo[aria-pressed="true"] .cerrado { display: none; }
+
+  .acceso fieldset { border: none; margin: 4px 0 18px; }
+  .acceso legend { font-weight: 600; color: var(--azul-oscuro); margin-bottom: 8px; }
+  .tipos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tipos label { border: 2px solid #c9d8e8; border-radius: 12px; padding: 14px 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--azul-oscuro); min-height: 56px; -webkit-tap-highlight-color: transparent; }
   .tipos label:has(input:checked) { border-color: var(--azul); background: var(--azul-claro-2); }
   .tipos label:has(input:focus-visible) { outline: 2px solid var(--azul); outline-offset: 2px; }
-  .tipos .nombre-tipo { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--azul-oscuro); }
-  .tipos input { accent-color: var(--azul); width: 18px; height: 18px; margin: 0; }
-  .tipos .detalle { font-size: .84rem; color: #5a6b7d; line-height: 1.4; }
+  .tipos input { accent-color: var(--azul); width: 20px; height: 20px; margin: 0; flex: none; }
+  .nota-tipo { font-size: .84rem; color: #5a6b7d; margin-top: 8px; }
 
-  .casilla { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; cursor: pointer; font-size: .95rem; }
+  .casilla { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; cursor: pointer; font-size: .95rem; color: #3b4a5a; }
   .casilla input { accent-color: var(--azul); width: 22px; height: 22px; flex: none; margin-top: 1px; }
   .casilla a { color: var(--azul); font-weight: 600; }
   .casillas.error .casilla:has(input:not(:checked)) { color: #d23b3b; }
-  .casillas .error-txt { display: none; color: #d23b3b; font-size: .84rem; font-weight: 600; margin: -4px 0 12px 34px; }
+  .casillas .error-txt { margin: -4px 0 12px 34px; }
   .casillas.error .error-txt { display: block; }
 
-  .registro .boton { width: 100%; min-height: 52px; margin-top: 8px; }
-  .registro .boton:disabled { opacity: .6; cursor: wait; }
-  .registro .pie-form { font-size: .82rem; color: #5a6b7d; text-align: center; margin-top: 14px; }
+  .acceso .boton { width: 100%; min-height: 54px; font-size: 1.05rem; background: var(--azul-oscuro); }
+  .acceso .boton:disabled { opacity: .6; cursor: wait; }
+  .boton.suave { background: var(--azul-claro); color: var(--azul-oscuro); }
+  #salir { background: #fff; border: 1px solid #c9d8e8; }
   .aviso-error { display: none; background: #fdecec; border: 1px solid #d23b3b; color: #a52a2a; border-radius: 10px; padding: 12px 14px; margin-top: 14px; font-weight: 600; font-size: .92rem; }
   .aviso-error.visible { display: block; }
+  .ayuda-acceso { font-size: .88rem; color: #5a6b7d; text-align: center; margin-top: 16px; }
+  .ayuda-acceso a { color: var(--azul); font-weight: 600; }
 
-  .gracias { text-align: center; padding: 10px 0; }
-  .gracias .marca-ok { width: 64px; height: 64px; border-radius: 50%; background: #e7f5e7; color: var(--verde); display: grid; place-items: center; margin: 0 auto 16px; }
-  .gracias h2 { color: var(--azul); font-size: 1.5rem; margin-bottom: 10px; }
-  .gracias p { color: #5a6b7d; margin-bottom: 22px; }
-  .gracias .boton { width: auto; }
+  /* ---- zona de socios ---- */
+  .saludo { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+  .saludo h1 { color: var(--azul); font-size: clamp(1.5rem, 6.5vw, 1.9rem); line-height: 1.15; }
+  .chip { display: inline-block; border-radius: 999px; padding: 4px 12px; font-size: .82rem; font-weight: 700; background: var(--azul-claro); color: var(--azul-oscuro); }
+  .chip.afiliado { background: var(--azul); color: #fff; }
+  .estado-caja { border-radius: 14px; padding: 16px; margin-bottom: 18px; font-weight: 600; }
+  .estado-caja.pendiente { background: #fff6dd; color: #6b4e00; border: 1px solid #f0d58a; }
+  .estado-caja.rechazada { background: #fdecec; color: #a52a2a; border: 1px solid #f1b5b5; }
+  .estado-caja p { font-weight: 400; margin-top: 6px; }
+  .bloque { margin-bottom: 22px; }
+  .bloque h2 { color: var(--azul-oscuro); font-size: 1.15rem; margin-bottom: 10px; }
+  .comunicado, .documento { background: #fff; border-radius: 14px; padding: 16px; box-shadow: var(--sombra); margin-bottom: 10px; }
+  .comunicado .fecha, .documento .fecha { font-size: .8rem; color: #5a6b7d; }
+  .comunicado h3, .documento h3 { color: var(--azul-oscuro); font-size: 1.02rem; margin: 2px 0 6px; }
+  .comunicado .texto { white-space: pre-wrap; color: #3b4a5a; font-size: .95rem; }
+  .comunicado a.enlace { display: inline-block; margin-top: 10px; color: var(--azul); font-weight: 700; word-break: break-all; }
+  .documento { display: flex; align-items: center; gap: 12px; }
+  .documento .info { flex: 1; min-width: 0; }
+  .documento p { font-size: .88rem; color: #5a6b7d; }
+  .documento button { flex: none; font: inherit; font-weight: 700; font-size: .9rem; border: none; border-radius: 999px; background: var(--azul); color: #fff; padding: 10px 16px; min-height: 44px; cursor: pointer; }
+  .documento button:disabled { opacity: .6; cursor: wait; }
+  .vacio { background: #fff; border-radius: 14px; padding: 18px; color: #5a6b7d; text-align: center; font-size: .95rem; }
+  details.mis-datos { background: #fff; border-radius: 14px; box-shadow: var(--sombra); margin-bottom: 14px; }
+  details.mis-datos summary { padding: 16px; font-weight: 700; color: var(--azul-oscuro); cursor: pointer; min-height: 52px; }
+  details.mis-datos .dentro { padding: 0 16px 16px; }
+  .datos-lista { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: .94rem; margin-bottom: 18px; }
+  .datos-lista dt { color: #5a6b7d; }
+  .datos-lista dd { color: var(--texto); font-weight: 600; word-break: break-all; }
+  .aviso-ok { margin-top: 12px; }
 
-  @media (max-width: 760px) {
-    .registro { padding-top: 20px; }
-    .registro .formulario { padding: 24px 18px; border-radius: 16px; }
-  }
-  @media (max-width: 380px) { .tipos { grid-template-columns: 1fr; } }
+  .pie-legal-min { text-align: center; font-size: .82rem; padding: 18px 16px 26px; color: #5a6b7d; }
+  .pie-legal-min a { color: var(--azul-oscuro); }
+  [hidden] { display: none !important; }
+  @media (max-width: 360px) { .tipos { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<header class="cabecera">
-  <div class="cabecera-inner">
-    <a href="index.html"><img class="logo" src="assets/logo-aisab.png" alt="AISAB — Agrupación Independiente San Antonio de Benagéber"></a>
-    <nav class="menu"><a href="index.html">← Volver a la web</a></nav>
-  </div>
-</header>
 
-<main class="registro">
-  <div class="contenedor">
-    <form class="formulario" id="form-registro" novalidate>
-      <h1>Súmate a AISAB</h1>
-      <p class="entradilla">Déjanos tus datos y nos pondremos en contacto contigo.</p>
+<main class="acceso">
+  <div class="barra-acceso">
+    <a class="volver" href="index.html"><span aria-hidden="true">←</span> Volver a la web</a>
+    <select class="selector-idioma" aria-label="Idioma">
+      <option value="es">Castellano</option>
+      <option value="va">Valencià</option>
+    </select>
+  </div>
+
+  <div class="sello"><img src="assets/logo-aisab-arbol.png" alt="AISAB"></div>
+
+  <!-- ============ ENTRAR / REGISTRARME ============ -->
+  <section id="vista-acceso">
+    <div class="pestanas" role="tablist">
+      <button type="button" role="tab" id="pestana-entrar" aria-selected="false" aria-controls="panel-entrar">Entrar</button>
+      <button type="button" role="tab" id="pestana-registro" aria-selected="true" aria-controls="panel-registro">Registrarme</button>
+    </div>
+
+    <!-- Registrarme -->
+    <form class="tarjeta" id="panel-registro" role="tabpanel" aria-labelledby="pestana-registro" novalidate>
+      <h1>Solicita tu acceso</h1>
+      <p class="entradilla">Revisaremos tu solicitud antes de activar la cuenta.</p>
 
       <div class="fila-doble">
         <div class="campo">
-          <label for="f-nombre">Nombre</label>
-          <input type="text" id="f-nombre" autocomplete="given-name" maxlength="80" required>
+          <label for="r-nombre">Nombre</label>
+          <input type="text" id="r-nombre" autocomplete="given-name" maxlength="80">
           <p class="error-txt">Escribe tu nombre.</p>
         </div>
         <div class="campo">
-          <label for="f-apellidos">Apellidos</label>
-          <input type="text" id="f-apellidos" autocomplete="family-name" maxlength="120" required>
+          <label for="r-apellidos">Apellidos</label>
+          <input type="text" id="r-apellidos" autocomplete="family-name" maxlength="120">
           <p class="error-txt">Escribe tus apellidos.</p>
         </div>
       </div>
       <div class="campo">
-        <label for="f-correo">Correo electrónico</label>
-        <input type="email" id="f-correo" autocomplete="email" inputmode="email" maxlength="160" required>
+        <label for="r-correo">Correo electrónico</label>
+        <input type="email" id="r-correo" autocomplete="email" inputmode="email" maxlength="160">
         <p class="error-txt">Revisa el correo: falta algo.</p>
       </div>
       <div class="campo">
-        <label for="f-telefono">Teléfono</label>
-        <input type="tel" id="f-telefono" autocomplete="tel" inputmode="tel" maxlength="20" required>
+        <label for="r-telefono">Teléfono</label>
+        <input type="tel" id="r-telefono" autocomplete="tel" inputmode="tel" maxlength="20">
         <p class="error-txt">Escribe un teléfono de al menos 9 cifras.</p>
+      </div>
+      <div class="campo">
+        <label for="r-clave">Contraseña</label>
+        <div class="con-ojo">
+          <input type="password" id="r-clave" autocomplete="new-password" maxlength="200">
+          <button type="button" class="ojo" aria-label="Mostrar contraseña" aria-pressed="false" aria-controls="r-clave">
+            <svg class="cerrado" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A9.7 9.7 0 0 1 12 5c5 0 9 4.5 10 7-.4 1-1.3 2.4-2.6 3.7M6.2 6.3C4.2 7.6 2.7 9.6 2 12c1 2.5 5 7 10 7 1.8 0 3.4-.5 4.8-1.3M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+            <svg class="abierto" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 12c1-2.5 5-7 10-7s9 4.5 10 7c-1 2.5-5 7-10 7S3 14.5 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <p class="ayuda">Mínimo 12 caracteres. Utiliza una frase fácil de recordar.</p>
+        <p class="error-txt">La contraseña necesita al menos 12 caracteres.</p>
       </div>
 
       <fieldset>
         <legend>Quiero registrarme como</legend>
         <div class="tipos">
-          <label>
-            <span class="nombre-tipo"><input type="radio" name="tipo" value="Simpatizante" checked> Simpatizante</span>
-            <span class="detalle">Apoyas el proyecto y quieres estar al tanto.</span>
-          </label>
-          <label>
-            <span class="nombre-tipo"><input type="radio" name="tipo" value="Afiliado"> Afiliado/a</span>
-            <span class="detalle">Te haces socio/a. Para completar el alta firmarás la hoja de inscripción.</span>
-          </label>
+          <label><input type="radio" name="tipo" value="Simpatizante" checked> Simpatizante</label>
+          <label><input type="radio" name="tipo" value="Afiliado"> Afiliado/a</label>
         </div>
+        <p class="nota-tipo">Para completar el alta como afiliado/a firmarás la hoja de inscripción.</p>
       </fieldset>
 
       <div class="casillas" id="casillas">
         <label class="casilla">
-          <input type="checkbox" id="f-privacidad">
+          <input type="checkbox" id="r-privacidad">
           <span>He leído y acepto la <a href="privacidad.html" target="_blank">política de privacidad</a>.</span>
         </label>
         <label class="casilla">
-          <input type="checkbox" id="f-consentimiento">
-          <span>Doy mi consentimiento explícito para que AISAB trate estos datos, que reflejan mi afinidad con la agrupación, para gestionar mi solicitud.</span>
+          <input type="checkbox" id="r-consentimiento">
+          <span>Doy mi consentimiento explícito para gestionar esta solicitud de vinculación.</span>
         </label>
         <p class="error-txt">Para enviar la solicitud tienes que marcar las dos casillas.</p>
       </div>
 
-      <input type="text" id="f-web" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
-      <button class="boton azul" type="submit">Enviar solicitud</button>
-      <p class="aviso-error" id="aviso-error" role="alert">No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.</p>
-      <p class="pie-form">Solo usamos estos datos para contactar contigo sobre AISAB. No se ceden a nadie.</p>
+      <input type="text" id="r-web" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+      <button class="boton" type="submit" data-texto="Enviar solicitud">Enviar solicitud</button>
+      <p class="aviso-error" role="alert"></p>
     </form>
 
-    <div class="formulario gracias" id="gracias" hidden>
-      <div class="marca-ok"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-      <h2 id="gracias-titulo">¡Gracias!</h2>
-      <p>Hemos recibido tu solicitud. Nos pondremos en contacto contigo pronto.</p>
-      <a class="boton azul" href="index.html">Conoce AISAB</a>
+    <!-- Entrar -->
+    <form class="tarjeta" id="panel-entrar" role="tabpanel" aria-labelledby="pestana-entrar" novalidate hidden>
+      <h1>Entra en tu cuenta</h1>
+      <p class="entradilla">Con el correo y la contraseña con los que te registraste.</p>
+      <div class="campo">
+        <label for="e-correo">Correo electrónico</label>
+        <input type="email" id="e-correo" autocomplete="username" inputmode="email" maxlength="160">
+        <p class="error-txt">Revisa el correo: falta algo.</p>
+      </div>
+      <div class="campo">
+        <label for="e-clave">Contraseña</label>
+        <div class="con-ojo">
+          <input type="password" id="e-clave" autocomplete="current-password" maxlength="200">
+          <button type="button" class="ojo" aria-label="Mostrar contraseña" aria-pressed="false" aria-controls="e-clave">
+            <svg class="cerrado" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A9.7 9.7 0 0 1 12 5c5 0 9 4.5 10 7-.4 1-1.3 2.4-2.6 3.7M6.2 6.3C4.2 7.6 2.7 9.6 2 12c1 2.5 5 7 10 7 1.8 0 3.4-.5 4.8-1.3M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+            <svg class="abierto" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 12c1-2.5 5-7 10-7s9 4.5 10 7c-1 2.5-5 7-10 7S3 14.5 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <p class="error-txt">Escribe tu contraseña.</p>
+      </div>
+      <button class="boton" type="submit" data-texto="Entrar">Entrar</button>
+      <p class="aviso-error" role="alert"></p>
+      <p class="ayuda-acceso">¿Has olvidado la contraseña? <a href="https://wa.me/34601269285" target="_blank" rel="noopener">Escríbenos por WhatsApp</a> y te la restablecemos.</p>
+    </form>
+  </section>
+
+  <!-- ============ SOLICITUD ENVIADA (si no se pudo entrar a la vez) ============ -->
+  <section class="tarjeta" id="vista-enviada" hidden>
+    <h1>¡Solicitud enviada!</h1>
+    <p class="entradilla">Revisaremos tu solicitud y activaremos tu cuenta. Si ya tenías cuenta con este correo, entra con tu contraseña de siempre.</p>
+    <button class="boton" type="button" id="ir-entrar">Entrar</button>
+  </section>
+
+  <!-- ============ ZONA DE SOCIOS ============ -->
+  <section id="vista-socio" hidden>
+    <div class="saludo">
+      <h1 id="s-hola">Hola</h1>
+      <span class="chip" id="s-tipo"></span>
     </div>
-  </div>
+
+    <div class="estado-caja pendiente" id="s-pendiente" hidden>
+      Tu solicitud está pendiente de revisión.
+      <p>Cuando activemos tu cuenta verás aquí los comunicados y documentos para socios.</p>
+    </div>
+    <div class="estado-caja rechazada" id="s-rechazada" hidden>
+      Tu solicitud no ha sido aceptada.
+      <p>Si crees que es un error, escríbenos por WhatsApp.</p>
+    </div>
+
+    <div id="s-contenido" hidden>
+      <div class="bloque">
+        <h2>Comunicados</h2>
+        <div id="s-comunicados" data-sin-traducir></div>
+        <p class="vacio" id="s-sin-comunicados" hidden>Todavía no hay comunicados.</p>
+      </div>
+      <div class="bloque">
+        <h2>Documentos</h2>
+        <div id="s-documentos" data-sin-traducir></div>
+        <p class="vacio" id="s-sin-documentos" hidden>Todavía no hay documentos.</p>
+      </div>
+    </div>
+
+    <details class="mis-datos">
+      <summary>Mis datos y contraseña</summary>
+      <div class="dentro">
+        <dl class="datos-lista">
+          <dt>Nombre</dt><dd id="s-nombre" data-sin-traducir></dd>
+          <dt>Correo</dt><dd id="s-correo" data-sin-traducir></dd>
+          <dt>Teléfono</dt><dd id="s-telefono" data-sin-traducir></dd>
+          <dt>Desde</dt><dd id="s-desde" data-sin-traducir></dd>
+        </dl>
+        <form id="form-clave" novalidate>
+          <div class="campo">
+            <label for="c-actual">Contraseña actual</label>
+            <input type="password" id="c-actual" autocomplete="current-password" maxlength="200">
+          </div>
+          <div class="campo">
+            <label for="c-nueva">Contraseña nueva</label>
+            <input type="password" id="c-nueva" autocomplete="new-password" maxlength="200">
+            <p class="ayuda">Mínimo 12 caracteres.</p>
+          </div>
+          <button class="boton suave" type="submit" data-texto="Cambiar contraseña">Cambiar contraseña</button>
+          <p class="aviso-error" role="alert"></p>
+          <p class="aviso-ok" id="c-ok">Contraseña cambiada.</p>
+        </form>
+      </div>
+    </details>
+
+    <button class="boton suave" type="button" id="salir">Salir</button>
+  </section>
 </main>
 
-<footer class="pie">
-  <div class="contenedor pie-legal" style="border-top:none;margin-top:0">
-    <p>© AISAB — Agrupación Independiente de San Antonio de Benagéber · San Antonio de Benagéber (Valencia)</p>
-    <nav>
-      <a href="aviso-legal.html">Aviso legal</a> ·
-      <a href="privacidad.html">Política de privacidad</a> ·
-      <a href="cookies.html">Política de cookies</a>
-    </nav>
-  </div>
+<footer class="pie-legal-min">
+  <a href="aviso-legal.html">Aviso legal</a> ·
+  <a href="privacidad.html">Política de privacidad</a> ·
+  <a href="cookies.html">Política de cookies</a>
 </footer>
 
 <script src="js/config.js"></script>
+<script src="js/valenciano.js"></script>
+<script src="js/idioma.js"></script>
 <script>
-const form = document.getElementById("form-registro");
-const valor = id => document.getElementById(id).value.trim();
+const C = window.AISAB_CONFIG || {};
+const $ = id => document.getElementById(id);
+const t = s => window.AISAB_IDIOMA.t(s);
+const CLAVE_SESION = "aisab_socio";
 
-function marcar(id, malo) {
-  document.getElementById(id).closest(".campo").classList.toggle("error", malo);
-  return malo;
+function leerSesion() { try { return localStorage.getItem(CLAVE_SESION); } catch (e) { return null; } }
+function guardarSesion(v) { try { v ? localStorage.setItem(CLAVE_SESION, v) : localStorage.removeItem(CLAVE_SESION); } catch (e) {} }
+
+async function rpc(nombre, cuerpo) {
+  const r = await fetch(C.SUPABASE_URL + "/rest/v1/rpc/" + nombre, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "apikey": C.SUPABASE_ANON_KEY, "Authorization": "Bearer " + C.SUPABASE_ANON_KEY },
+    body: JSON.stringify(cuerpo)
+  });
+  const texto = await r.text();
+  const datos = texto ? JSON.parse(texto) : null;
+  if (!r.ok) throw new Error((datos && datos.message) || "HTTP " + r.status);
+  return datos;
 }
 
-// al corregir un campo se quita su aviso
-form.querySelectorAll(".campo input").forEach(i =>
+// ---- vistas ----
+function mostrar(vista) {
+  ["vista-acceso", "vista-enviada", "vista-socio"].forEach(v => $(v).hidden = v !== vista);
+  window.scrollTo(0, 0);
+}
+function pestana(cual) {
+  const entrar = cual === "entrar";
+  $("pestana-entrar").setAttribute("aria-selected", entrar);
+  $("pestana-registro").setAttribute("aria-selected", !entrar);
+  $("panel-entrar").hidden = !entrar;
+  $("panel-registro").hidden = entrar;
+}
+$("pestana-entrar").addEventListener("click", () => pestana("entrar"));
+$("pestana-registro").addEventListener("click", () => pestana("registro"));
+$("ir-entrar").addEventListener("click", () => { mostrar("vista-acceso"); pestana("entrar"); });
+
+// ---- ojo de la contraseña ----
+document.querySelectorAll(".ojo").forEach(b => b.addEventListener("click", () => {
+  const input = $(b.getAttribute("aria-controls"));
+  const ver = input.type === "password";
+  input.type = ver ? "text" : "password";
+  b.setAttribute("aria-pressed", ver);
+  b.setAttribute("aria-label", t(ver ? "Ocultar contraseña" : "Mostrar contraseña"));
+}));
+
+// ---- utilidades de formulario ----
+function marcar(id, malo) { $(id).closest(".campo").classList.toggle("error", malo); return malo; }
+document.querySelectorAll(".campo input").forEach(i =>
   i.addEventListener("input", () => i.closest(".campo").classList.remove("error")));
-form.querySelectorAll(".casilla input").forEach(i =>
-  i.addEventListener("change", () => document.getElementById("casillas").classList.remove("error")));
+document.querySelectorAll(".casilla input").forEach(i =>
+  i.addEventListener("change", () => $("casillas").classList.remove("error")));
+function avisar(form, mensaje) {
+  const p = form.querySelector(".aviso-error");
+  p.textContent = mensaje || "";
+  p.classList.toggle("visible", !!mensaje);
+}
+function ocupado(form, si, texto) {
+  const b = form.querySelector('button[type="submit"]');
+  b.disabled = si;
+  b.textContent = si ? texto : b.dataset.texto;
+}
+const correoValido = c => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c);
 
-form.addEventListener("submit", async e => {
+// ---- registro ----
+$("panel-registro").addEventListener("submit", async e => {
   e.preventDefault();
-  if (valor("f-web")) return; // honeypot anti-spam
-  document.getElementById("aviso-error").classList.remove("visible");
-
+  const form = e.currentTarget;
+  if ($("r-web").value) return; // honeypot anti-spam
+  avisar(form, "");
+  const v = id => $(id).value.trim();
   const datos = {
     tipo: form.querySelector('input[name="tipo"]:checked').value,
-    nombre: valor("f-nombre"),
-    apellidos: valor("f-apellidos"),
-    correo: valor("f-correo").toLowerCase(),
-    telefono: valor("f-telefono"),
-    acepta_privacidad: document.getElementById("f-privacidad").checked,
-    consentimiento: document.getElementById("f-consentimiento").checked
+    nombre: v("r-nombre"), apellidos: v("r-apellidos"),
+    correo: v("r-correo").toLowerCase(), telefono: v("r-telefono"),
+    clave: $("r-clave").value,
+    idioma: window.AISAB_IDIOMA.actual(),
+    acepta_privacidad: $("r-privacidad").checked,
+    consentimiento: $("r-consentimiento").checked
   };
-
   const fallos = [
-    marcar("f-nombre", !datos.nombre),
-    marcar("f-apellidos", !datos.apellidos),
-    marcar("f-correo", !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datos.correo)),
-    marcar("f-telefono", datos.telefono.replace(/\D/g, "").length < 9)
+    marcar("r-nombre", !datos.nombre),
+    marcar("r-apellidos", !datos.apellidos),
+    marcar("r-correo", !correoValido(datos.correo)),
+    marcar("r-telefono", datos.telefono.replace(/\D/g, "").length < 9),
+    marcar("r-clave", datos.clave.length < 12)
   ];
   const sinCasillas = !datos.acepta_privacidad || !datos.consentimiento;
-  document.getElementById("casillas").classList.toggle("error", sinCasillas);
+  $("casillas").classList.toggle("error", sinCasillas);
   if (fallos.some(Boolean) || sinCasillas) {
-    form.querySelector(".error input, .casillas.error input:not(:checked)")?.focus();
+    const primero = form.querySelector(".campo.error input, .casillas.error input:not(:checked)");
+    if (primero) primero.focus();
     return;
   }
-
-  const C = window.AISAB_CONFIG || {};
-  const boton = form.querySelector('button[type="submit"]');
-  boton.disabled = true; boton.textContent = "Enviando…";
+  ocupado(form, true, "Enviando…");
   try {
-    const r = await fetch(C.SUPABASE_URL + "/rest/v1/afiliaciones", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": C.SUPABASE_ANON_KEY,
-        "Authorization": "Bearer " + C.SUPABASE_ANON_KEY,
-        "Prefer": "return=minimal"
-      },
-      body: JSON.stringify(datos)
-    });
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    document.getElementById("gracias-titulo").textContent = "¡Gracias, " + datos.nombre + "!";
-    form.hidden = true;
-    document.getElementById("gracias").hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    await rpc("socio_registrar", { datos });
+    // se intenta entrar a la vez; si el correo ya existía con otra contraseña, no entra
+    try {
+      const token = await rpc("socio_entrar", { correo: datos.correo, clave: datos.clave });
+      guardarSesion(token);
+      form.reset();
+      await abrirZona();
+    } catch (err) {
+      form.reset();
+      mostrar("vista-enviada");
+    }
   } catch (err) {
-    document.getElementById("aviso-error").classList.add("visible");
+    avisar(form, "No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.");
   } finally {
-    boton.disabled = false; boton.textContent = "Enviar solicitud";
+    ocupado(form, false);
   }
 });
+
+// ---- entrar ----
+$("panel-entrar").addEventListener("submit", async e => {
+  e.preventDefault();
+  const form = e.currentTarget;
+  avisar(form, "");
+  const correo = $("e-correo").value.trim().toLowerCase(), clave = $("e-clave").value;
+  const malos = [marcar("e-correo", !correoValido(correo)), marcar("e-clave", !clave)];
+  if (malos.some(Boolean)) return;
+  ocupado(form, true, "Entrando…");
+  try {
+    const token = await rpc("socio_entrar", { correo, clave });
+    guardarSesion(token);
+    form.reset();
+    await abrirZona();
+  } catch (err) {
+    avisar(form, /bloqueada/.test(err.message)
+      ? "Demasiados intentos. Prueba otra vez dentro de 15 minutos."
+      : /datos incorrectos/.test(err.message)
+        ? "El correo o la contraseña no son correctos."
+        : "No se ha podido entrar. Revisa tu conexión e inténtalo de nuevo.");
+  } finally {
+    ocupado(form, false);
+  }
+});
+
+// ---- zona de socios ----
+let ficha = null;
+const fecha = f => new Date(f).toLocaleDateString(window.AISAB_IDIOMA.actual() === "va" ? "ca-ES" : "es-ES", { day: "numeric", month: "long", year: "numeric" });
+const tamano = b => b < 1024 * 1024 ? Math.max(1, Math.round(b / 1024)) + " KB" : (b / 1024 / 1024).toFixed(1).replace(".", ",") + " MB";
+
+async function abrirZona() {
+  const token = leerSesion();
+  if (!token) return false;
+  try {
+    ficha = await rpc("socio_datos", { token });
+  } catch (err) {
+    if (/sesion caducada/.test(err.message)) guardarSesion(null);
+    return false;
+  }
+  pintarZona();
+  mostrar("vista-socio");
+  return true;
+}
+
+function pintarZona() {
+  const f = ficha;
+  $("s-hola").textContent = t("Hola") + ", " + f.nombre;
+  $("s-tipo").textContent = t(f.tipo === "Afiliado" ? "Afiliado/a" : "Simpatizante");
+  $("s-tipo").classList.toggle("afiliado", f.tipo === "Afiliado");
+  $("s-pendiente").hidden = f.estado !== "Pendiente";
+  $("s-rechazada").hidden = f.estado !== "Rechazada";
+  $("s-contenido").hidden = f.estado !== "Activa";
+  $("s-nombre").textContent = f.nombre + " " + f.apellidos;
+  $("s-correo").textContent = f.correo;
+  $("s-telefono").textContent = f.telefono;
+  $("s-desde").textContent = fecha(f.desde);
+
+  const cajaC = $("s-comunicados");
+  cajaC.innerHTML = "";
+  f.comunicados.forEach(c => {
+    const a = document.createElement("article");
+    a.className = "comunicado";
+    a.innerHTML = '<p class="fecha"></p><h3></h3><p class="texto"></p>';
+    a.querySelector(".fecha").textContent = fecha(c.creado);
+    a.querySelector("h3").textContent = c.titulo;
+    a.querySelector(".texto").textContent = c.texto;
+    if (c.enlace && /^https?:\/\//i.test(c.enlace)) {
+      const l = document.createElement("a");
+      l.className = "enlace"; l.href = c.enlace; l.target = "_blank"; l.rel = "noopener";
+      l.textContent = c.enlace;
+      a.appendChild(l);
+    }
+    cajaC.appendChild(a);
+  });
+  $("s-sin-comunicados").hidden = f.comunicados.length > 0;
+
+  const cajaD = $("s-documentos");
+  cajaD.innerHTML = "";
+  f.documentos.forEach(d => {
+    const a = document.createElement("article");
+    a.className = "documento";
+    a.innerHTML = '<div class="info"><p class="fecha"></p><h3></h3><p class="desc"></p></div><button type="button"></button>';
+    a.querySelector(".fecha").textContent = fecha(d.creado) + " · " + tamano(d.tamano);
+    a.querySelector("h3").textContent = d.titulo;
+    a.querySelector(".desc").textContent = d.descripcion || "";
+    const b = a.querySelector("button");
+    b.textContent = t("Descargar");
+    b.addEventListener("click", () => descargar(d, b));
+    cajaD.appendChild(a);
+  });
+  $("s-sin-documentos").hidden = f.documentos.length > 0;
+}
+
+async function descargar(d, boton) {
+  boton.disabled = true;
+  try {
+    const r = await rpc("socio_documento", { token: leerSesion(), doc_id: d.id });
+    const bin = atob(r.base64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const url = URL.createObjectURL(new Blob([bytes], { type: r.tipo_mime }));
+    const a = document.createElement("a");
+    a.href = url; a.download = r.nombre_archivo;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+  } catch (err) {
+    alert(t("No se ha podido descargar el documento. Inténtalo de nuevo."));
+  } finally {
+    boton.disabled = false;
+  }
+}
+
+$("form-clave").addEventListener("submit", async e => {
+  e.preventDefault();
+  const form = e.currentTarget;
+  avisar(form, "");
+  $("c-ok").classList.remove("visible");
+  const actual = $("c-actual").value, nueva = $("c-nueva").value;
+  if (nueva.length < 12) { avisar(form, "La contraseña nueva necesita al menos 12 caracteres."); return; }
+  ocupado(form, true, "Guardando…");
+  try {
+    await rpc("socio_cambiar_clave", { token: leerSesion(), actual, nueva });
+    form.reset();
+    $("c-ok").classList.add("visible");
+  } catch (err) {
+    avisar(form, /actual incorrecta/.test(err.message) ? "La contraseña actual no es correcta." : "No se ha podido cambiar. Inténtalo de nuevo.");
+  } finally {
+    ocupado(form, false);
+  }
+});
+
+$("salir").addEventListener("click", async () => {
+  const token = leerSesion();
+  guardarSesion(null);
+  ficha = null;
+  try { if (token) await rpc("socio_salir", { token }); } catch (e) {}
+  mostrar("vista-acceso");
+  pestana("entrar");
+});
+
+// al cambiar de idioma: se repintan los textos que pone el JS y se guarda en la ficha
+document.addEventListener("aisab:idioma", e => {
+  document.querySelectorAll(".ojo").forEach(b =>
+    b.setAttribute("aria-label", t($(b.getAttribute("aria-controls")).type === "password" ? "Mostrar contraseña" : "Ocultar contraseña")));
+  if (ficha) {
+    pintarZona();
+    rpc("socio_idioma", { token: leerSesion(), idioma: e.detail }).catch(() => {});
+  }
+});
+
+// ---- arranque: sesión guardada o pestaña según el enlace ----
+if (location.hash === "#entrar") pestana("entrar");
+abrirZona();
 </script>
 </body>
 </html>
