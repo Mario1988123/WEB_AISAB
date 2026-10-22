@@ -28,7 +28,7 @@ create policy "insercion publica" on public.sugerencias
   for insert to anon with check (true);
 -- (sin política de SELECT: nadie puede leer directamente)
 
--- Clave del panel: AISAB2010 (guardada como hash SHA-256)
+-- Clave del panel: guardada como hash SHA-256 (la clave la tiene Mario)
 -- NOTA: en Supabase, pgcrypto (digest) vive en el esquema `extensions`,
 -- por eso el search_path debe incluir `extensions` y la llamada se cualifica
 -- como `extensions.digest(...)`.
