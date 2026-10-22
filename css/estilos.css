@@ -607,6 +607,47 @@ img { max-width: 100%; display: block; }
 #pista .flecha { width: 18px; height: 18px; border-right: 3px solid #fff; border-bottom: 3px solid #fff; transform: rotate(45deg); animation: bota 1.4s infinite; }
 @keyframes bota { 0%,100%{ transform: rotate(45deg) translate(0,0);} 50%{ transform: rotate(45deg) translate(5px,5px);} }
 
+/* ---------- Toast «Afíliate a AISAB» (héroe) ---------- */
+/* Queda por debajo de la pantalla de carga (z-index 20) y entra cuando esta se va */
+#toast-afiliate {
+  position: absolute; right: 24px; bottom: 24px; z-index: 15;
+  width: min(360px, calc(100% - 32px));
+  display: flex; align-items: center;
+  background: var(--blanco); border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(8,30,60,.35), 0 2px 6px rgba(8,30,60,.18);
+  animation: toast-entra .5s cubic-bezier(.2,.9,.3,1.15) 1.2s both;
+}
+#toast-afiliate.saliendo { animation: toast-sale .25s ease-in forwards; }
+.toast-enlace {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px;
+  padding: 12px 4px 12px 12px; color: var(--azul-oscuro); text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.toast-sello {
+  flex: none; width: 46px; height: 46px; border-radius: 12px; background: var(--azul-logo);
+  display: grid; place-items: center;
+}
+.toast-sello img { height: 32px; width: auto; }
+.toast-textos { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.toast-textos strong { font-size: 1.05rem; font-weight: 800; color: var(--azul); }
+.toast-textos span { font-size: .85rem; color: #5a6b7d; }
+.toast-flecha { flex: none; color: var(--verde); transition: transform .2s; }
+.toast-enlace:hover .toast-flecha { transform: translateX(3px); }
+.toast-cerrar {
+  flex: none; align-self: stretch; width: 44px; border: none; background: none; cursor: pointer;
+  font-size: 1.5rem; line-height: 1; color: #8a99a8; border-radius: 0 16px 16px 0;
+}
+.toast-cerrar:hover { color: var(--azul-oscuro); }
+@keyframes toast-entra { from { opacity: 0; transform: translateY(24px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes toast-sale { to { opacity: 0; transform: translateY(16px) scale(.97); } }
+@media (max-width: 760px) {
+  /* móvil: centrado, por encima del «Haz scroll» */
+  #toast-afiliate { left: 0; right: 0; margin: 0 auto; bottom: 86px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #toast-afiliate, #toast-afiliate.saliendo { animation-duration: .01s; animation-delay: 0s; }
+}
+
 
 /* ---------- Icono Instagram (SVG, hereda color) ---------- */
 .icono-ig { width: 22px; height: 22px; flex-shrink: 0; }

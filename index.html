@@ -41,6 +41,14 @@
       <div class="raya"></div>
     </div>
     <div id="pista"><span>Haz scroll</span><div class="flecha"></div></div>
+    <div id="toast-afiliate" role="status">
+      <a class="toast-enlace" href="afiliados.html">
+        <span class="toast-sello"><img src="assets/logo-aisab-arbol.png" alt=""></span>
+        <span class="toast-textos"><strong>¡Afíliate a AISAB!</strong><span>Hazte simpatizante o afiliado/a</span></span>
+        <svg class="toast-flecha" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </a>
+      <button type="button" class="toast-cerrar" aria-label="Cerrar aviso">&times;</button>
+    </div>
   </div>
 </div>
 
@@ -439,6 +447,19 @@ function crearFormulario(contenedor, sufijo) {
 
 crearFormulario(document.getElementById("form-en-pagina"), "pagina");
 crearFormulario(document.getElementById("form-en-modal"), "modal");
+
+// ---- Toast «Afíliate a AISAB» en el héroe ----
+(function () {
+  const toast = document.getElementById("toast-afiliate");
+  let cerrado = false;
+  try { cerrado = sessionStorage.getItem("aisab_toast_cerrado") === "1"; } catch (e) {}
+  if (cerrado) { toast.remove(); return; }
+  toast.querySelector(".toast-cerrar").addEventListener("click", () => {
+    toast.classList.add("saliendo");
+    try { sessionStorage.setItem("aisab_toast_cerrado", "1"); } catch (e) {}
+    setTimeout(() => toast.remove(), 250);
+  });
+})();
 
 // ---- Modal ----
 const modal = document.getElementById("modal-sugerencias");

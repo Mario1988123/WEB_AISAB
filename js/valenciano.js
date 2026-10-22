@@ -229,5 +229,8 @@ window.AISAB_VA = {
   "No se ha podido descargar el documento. Inténtalo de nuevo.": "No s'ha pogut descarregar el document. Torna-ho a provar.",
   "La contraseña nueva necesita al menos 12 caracteres.": "La contrasenya nova necessita almenys 12 caràcters.",
   "La contraseña actual no es correcta.": "La contrasenya actual no és correcta.",
-  "No se ha podido cambiar. Inténtalo de nuevo.": "No s'ha pogut canviar. Torna-ho a provar."
+  "No se ha podido cambiar. Inténtalo de nuevo.": "No s'ha pogut canviar. Torna-ho a provar.",
+  "¡Afíliate a AISAB!": "Afilia't a AISAB!",
+  "Hazte simpatizante o afiliado/a": "Fes-te simpatitzant o afiliat/ada",
+  "Cerrar aviso": "Tanca l'avís"
 };
