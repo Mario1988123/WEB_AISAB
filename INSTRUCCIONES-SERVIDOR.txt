@@ -23,7 +23,7 @@
 
 3) PANEL DE ADMINISTRACIÓN
    - URL:   www.aisab.es/admin/
-   - Clave: AISAB2010
+   - Clave: la tiene Mario (no se escribe aquí)
    - La clave está protegida (hash) y validada en el servidor
      de Supabase, no en el navegador.
 

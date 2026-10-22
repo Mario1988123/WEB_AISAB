@@ -1,0 +1,8 @@
+# Archivos internos: estan en el repo pero no se publican en www.aisab.es
+INSTRUCCIONES-SERVIDOR.txt
+README.md
+supabase.sql
+keepalive.sql
+web_aisab_ok.zip
+.github
+.claude
