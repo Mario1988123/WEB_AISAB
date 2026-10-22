@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Súmate a AISAB — Simpatizantes y afiliados</title>
+<meta name="description" content="Regístrate como simpatizante o afiliado/a de AISAB, la Agrupación Independiente de San Antonio de Benagéber.">
+<meta name="theme-color" content="#1557a5">
+<meta property="og:title" content="Súmate a AISAB">
+<meta property="og:description" content="Regístrate como simpatizante o afiliado/a de la Agrupación Independiente de San Antonio de Benagéber.">
+<meta property="og:image" content="https://www.aisab.es/assets/logo-aisab.png">
+<meta property="og:url" content="https://www.aisab.es/afiliados">
+<link rel="canonical" href="https://www.aisab.es/afiliados">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="icon" type="image/png" href="assets/logo-aisab.png">
+<style>
+  /* ---- solo esta página ---- */
+  body { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+  .registro { background: var(--azul-claro); padding: 36px 0 56px; flex: 1; }
+  .registro .formulario { max-width: 560px; }
+  .registro .fila-doble { gap: 0 16px; }
+  .registro h1 { color: var(--azul); font-size: clamp(1.7rem, 7vw, 2.2rem); line-height: 1.15; margin-bottom: 8px; }
+  .registro .entradilla { color: #5a6b7d; margin-bottom: 26px; }
+  .registro .campo input[type="text"],
+  .registro .campo input[type="email"],
+  .registro .campo input[type="tel"] { min-height: 50px; }
+  .registro .campo.error input { border-color: #d23b3b; }
+  .registro .campo .error-txt { display: none; color: #d23b3b; font-size: .84rem; font-weight: 600; margin-top: 5px; }
+  .registro .campo.error .error-txt { display: block; }
+
+  .registro fieldset { border: none; margin-bottom: 18px; }
+  .registro legend { font-weight: 600; color: var(--azul-oscuro); margin-bottom: 8px; }
+  .tipos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tipos label {
+    border: 2px solid #b9cde3; border-radius: 12px; padding: 14px;
+    cursor: pointer; display: flex; flex-direction: column; gap: 4px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tipos label:has(input:checked) { border-color: var(--azul); background: var(--azul-claro-2); }
+  .tipos label:has(input:focus-visible) { outline: 2px solid var(--azul); outline-offset: 2px; }
+  .tipos .nombre-tipo { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--azul-oscuro); }
+  .tipos input { accent-color: var(--azul); width: 18px; height: 18px; margin: 0; }
+  .tipos .detalle { font-size: .84rem; color: #5a6b7d; line-height: 1.4; }
+
+  .casilla { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; cursor: pointer; font-size: .95rem; }
+  .casilla input { accent-color: var(--azul); width: 22px; height: 22px; flex: none; margin-top: 1px; }
+  .casilla a { color: var(--azul); font-weight: 600; }
+  .casillas.error .casilla:has(input:not(:checked)) { color: #d23b3b; }
+  .casillas .error-txt { display: none; color: #d23b3b; font-size: .84rem; font-weight: 600; margin: -4px 0 12px 34px; }
+  .casillas.error .error-txt { display: block; }
+
+  .registro .boton { width: 100%; min-height: 52px; margin-top: 8px; }
+  .registro .boton:disabled { opacity: .6; cursor: wait; }
+  .registro .pie-form { font-size: .82rem; color: #5a6b7d; text-align: center; margin-top: 14px; }
+  .aviso-error { display: none; background: #fdecec; border: 1px solid #d23b3b; color: #a52a2a; border-radius: 10px; padding: 12px 14px; margin-top: 14px; font-weight: 600; font-size: .92rem; }
+  .aviso-error.visible { display: block; }
+
+  .gracias { text-align: center; padding: 10px 0; }
+  .gracias .marca-ok { width: 64px; height: 64px; border-radius: 50%; background: #e7f5e7; color: var(--verde); display: grid; place-items: center; margin: 0 auto 16px; }
+  .gracias h2 { color: var(--azul); font-size: 1.5rem; margin-bottom: 10px; }
+  .gracias p { color: #5a6b7d; margin-bottom: 22px; }
+  .gracias .boton { width: auto; }
+
+  @media (max-width: 760px) {
+    .registro { padding-top: 20px; }
+    .registro .formulario { padding: 24px 18px; border-radius: 16px; }
+  }
+  @media (max-width: 380px) { .tipos { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header class="cabecera">
+  <div class="cabecera-inner">
+    <a href="index.html"><img class="logo" src="assets/logo-aisab.png" alt="AISAB — Agrupación Independiente San Antonio de Benagéber"></a>
+    <nav class="menu"><a href="index.html">← Volver a la web</a></nav>
+  </div>
+</header>
+
+<main class="registro">
+  <div class="contenedor">
+    <form class="formulario" id="form-registro" novalidate>
+      <h1>Súmate a AISAB</h1>
+      <p class="entradilla">Déjanos tus datos y nos pondremos en contacto contigo.</p>
+
+      <div class="fila-doble">
+        <div class="campo">
+          <label for="f-nombre">Nombre</label>
+          <input type="text" id="f-nombre" autocomplete="given-name" maxlength="80" required>
+          <p class="error-txt">Escribe tu nombre.</p>
+        </div>
+        <div class="campo">
+          <label for="f-apellidos">Apellidos</label>
+          <input type="text" id="f-apellidos" autocomplete="family-name" maxlength="120" required>
+          <p class="error-txt">Escribe tus apellidos.</p>
+        </div>
+      </div>
+      <div class="campo">
+        <label for="f-correo">Correo electrónico</label>
+        <input type="email" id="f-correo" autocomplete="email" inputmode="email" maxlength="160" required>
+        <p class="error-txt">Revisa el correo: falta algo.</p>
+      </div>
+      <div class="campo">
+        <label for="f-telefono">Teléfono</label>
+        <input type="tel" id="f-telefono" autocomplete="tel" inputmode="tel" maxlength="20" required>
+        <p class="error-txt">Escribe un teléfono de al menos 9 cifras.</p>
+      </div>
+
+      <fieldset>
+        <legend>Quiero registrarme como</legend>
+        <div class="tipos">
+          <label>
+            <span class="nombre-tipo"><input type="radio" name="tipo" value="Simpatizante" checked> Simpatizante</span>
+            <span class="detalle">Apoyas el proyecto y quieres estar al tanto.</span>
+          </label>
+          <label>
+            <span class="nombre-tipo"><input type="radio" name="tipo" value="Afiliado"> Afiliado/a</span>
+            <span class="detalle">Te haces socio/a. Para completar el alta firmarás la hoja de inscripción.</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="casillas" id="casillas">
+        <label class="casilla">
+          <input type="checkbox" id="f-privacidad">
+          <span>He leído y acepto la <a href="privacidad.html" target="_blank">política de privacidad</a>.</span>
+        </label>
+        <label class="casilla">
+          <input type="checkbox" id="f-consentimiento">
+          <span>Doy mi consentimiento explícito para que AISAB trate estos datos, que reflejan mi afinidad con la agrupación, para gestionar mi solicitud.</span>
+        </label>
+        <p class="error-txt">Para enviar la solicitud tienes que marcar las dos casillas.</p>
+      </div>
+
+      <input type="text" id="f-web" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+      <button class="boton azul" type="submit">Enviar solicitud</button>
+      <p class="aviso-error" id="aviso-error" role="alert">No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.</p>
+      <p class="pie-form">Solo usamos estos datos para contactar contigo sobre AISAB. No se ceden a nadie.</p>
+    </form>
+
+    <div class="formulario gracias" id="gracias" hidden>
+      <div class="marca-ok"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 id="gracias-titulo">¡Gracias!</h2>
+      <p>Hemos recibido tu solicitud. Nos pondremos en contacto contigo pronto.</p>
+      <a class="boton azul" href="index.html">Conoce AISAB</a>
+    </div>
+  </div>
+</main>
+
+<footer class="pie">
+  <div class="contenedor pie-legal" style="border-top:none;margin-top:0">
+    <p>© AISAB — Agrupación Independiente de San Antonio de Benagéber · San Antonio de Benagéber (Valencia)</p>
+    <nav>
+      <a href="aviso-legal.html">Aviso legal</a> ·
+      <a href="privacidad.html">Política de privacidad</a> ·
+      <a href="cookies.html">Política de cookies</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script>
+const form = document.getElementById("form-registro");
+const valor = id => document.getElementById(id).value.trim();
+
+function marcar(id, malo) {
+  document.getElementById(id).closest(".campo").classList.toggle("error", malo);
+  return malo;
+}
+
+// al corregir un campo se quita su aviso
+form.querySelectorAll(".campo input").forEach(i =>
+  i.addEventListener("input", () => i.closest(".campo").classList.remove("error")));
+form.querySelectorAll(".casilla input").forEach(i =>
+  i.addEventListener("change", () => document.getElementById("casillas").classList.remove("error")));
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (valor("f-web")) return; // honeypot anti-spam
+  document.getElementById("aviso-error").classList.remove("visible");
+
+  const datos = {
+    tipo: form.querySelector('input[name="tipo"]:checked').value,
+    nombre: valor("f-nombre"),
+    apellidos: valor("f-apellidos"),
+    correo: valor("f-correo").toLowerCase(),
+    telefono: valor("f-telefono"),
+    acepta_privacidad: document.getElementById("f-privacidad").checked,
+    consentimiento: document.getElementById("f-consentimiento").checked
+  };
+
+  const fallos = [
+    marcar("f-nombre", !datos.nombre),
+    marcar("f-apellidos", !datos.apellidos),
+    marcar("f-correo", !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datos.correo)),
+    marcar("f-telefono", datos.telefono.replace(/\D/g, "").length < 9)
+  ];
+  const sinCasillas = !datos.acepta_privacidad || !datos.consentimiento;
+  document.getElementById("casillas").classList.toggle("error", sinCasillas);
+  if (fallos.some(Boolean) || sinCasillas) {
+    form.querySelector(".error input, .casillas.error input:not(:checked)")?.focus();
+    return;
+  }
+
+  const C = window.AISAB_CONFIG || {};
+  const boton = form.querySelector('button[type="submit"]');
+  boton.disabled = true; boton.textContent = "Enviando…";
+  try {
+    const r = await fetch(C.SUPABASE_URL + "/rest/v1/afiliaciones", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": C.SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + C.SUPABASE_ANON_KEY,
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(datos)
+    });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    document.getElementById("gracias-titulo").textContent = "¡Gracias, " + datos.nombre + "!";
+    form.hidden = true;
+    document.getElementById("gracias").hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (err) {
+    document.getElementById("aviso-error").classList.add("visible");
+  } finally {
+    boton.disabled = false; boton.textContent = "Enviar solicitud";
+  }
+});
+</script>
+</body>
+</html>

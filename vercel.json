@@ -8,6 +8,10 @@
   ],
   "rewrites": [
     {
+      "source": "/afiliados",
+      "destination": "/afiliados.html"
+    },
+    {
       "source": "/oficina",
       "destination": "https://sab-oficina.vercel.app/oficina"
     },

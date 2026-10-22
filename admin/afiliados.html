@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Panel AISAB — Simpatizantes y afiliados</title>
+<link rel="icon" type="image/png" href="../assets/logo-aisab.png">
+<style>
+  :root { --azul:#1858a4; --azul-osc:#11427e; --azul-claro:#e5f0fa; --verde:#2f9e44; --rojo:#d23b3b; --ambar:#e0a200; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; background:#f2f6fb; color:#1c2733; }
+  .oculto { display:none !important; }
+
+  /* ---- pantalla de clave ---- */
+  #puerta { min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--azul); }
+  #puerta .caja { background:#fff; border-radius:18px; padding:38px; width:min(380px,92%); text-align:center; }
+  #puerta img { height:60px; margin:0 auto 18px; }
+  #puerta h1 { color:var(--azul); font-size:1.3rem; margin-bottom:18px; }
+  #puerta input { width:100%; padding:12px; border:1px solid #b9cde3; border-radius:10px; font-size:1rem; text-align:center; }
+  #puerta button { margin-top:14px; width:100%; padding:12px; border:none; border-radius:999px; background:var(--azul); color:#fff; font-weight:700; font-size:1rem; cursor:pointer; }
+  #puerta .error { color:var(--rojo); font-weight:600; margin-top:10px; display:none; }
+
+  /* ---- panel ---- */
+  header.barra { background:var(--azul); color:#fff; padding:10px 18px; display:flex; align-items:center; gap:10px 14px; flex-wrap:wrap; }
+  header.barra img { height:42px; }
+  header.barra h1 { font-size:1.1rem; flex:1; min-width:160px; }
+  header.barra a, header.barra button { background:rgba(255,255,255,.15); color:#fff; border:none; border-radius:999px; padding:8px 16px; cursor:pointer; font-weight:600; font-size:.9rem; text-decoration:none; font-family:inherit; }
+
+  .contenido { max-width:980px; margin:0 auto; padding:18px; }
+
+  .filtros { display:flex; gap:10px; flex-wrap:wrap; align-items:end; background:#fff; border-radius:14px; padding:14px; margin-bottom:16px; box-shadow:0 4px 16px rgba(24,88,164,.08); }
+  .filtros label { display:block; font-size:.78rem; font-weight:700; color:var(--azul-osc); margin-bottom:4px; }
+  .filtros select, .filtros input { padding:8px 10px; border:1px solid #b9cde3; border-radius:8px; font-size:1rem; background:#fff; }
+  .filtros .buscar { flex:1; min-width:180px; }
+  .filtros .buscar input { width:100%; }
+  .filtros .chip { background:var(--azul-claro); color:var(--azul-osc); border-radius:999px; padding:8px 14px; font-weight:700; font-size:.9rem; }
+
+  .lista { display:grid; gap:12px; }
+  .ficha { background:#fff; border-radius:14px; padding:16px; box-shadow:0 4px 16px rgba(24,88,164,.08); }
+  .ficha .cab { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+  .ficha h2 { font-size:1.05rem; color:var(--azul-osc); flex:1; min-width:160px; }
+  .ficha .etq { border-radius:999px; padding:3px 10px; font-size:.78rem; font-weight:700; color:#fff; }
+  .etq.Simpatizante { background:var(--verde); }
+  .etq.Afiliado { background:var(--azul); }
+  .ficha .fecha { font-size:.8rem; color:#5a6b7d; margin-top:4px; }
+  .ficha .contacto { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  .ficha .contacto a { background:var(--azul-claro); color:var(--azul-osc); border-radius:999px; padding:7px 12px; font-size:.86rem; font-weight:600; text-decoration:none; word-break:break-all; }
+  .ficha .estado { margin-top:12px; display:flex; gap:6px; flex-wrap:wrap; }
+  .ficha .estado button { border:1px solid #b9cde3; background:#fff; border-radius:999px; padding:6px 12px; cursor:pointer; font-weight:600; font-size:.82rem; font-family:inherit; }
+  .ficha .estado button.activo { background:var(--azul); color:#fff; border-color:var(--azul); }
+  .vacio { text-align:center; color:#5a6b7d; padding:40px 10px; }
+  .aviso { background:#fdecec; border:1px solid var(--rojo); color:#a52a2a; border-radius:10px; padding:12px 14px; font-weight:600; margin-bottom:16px; }
+</style>
+</head>
+<body>
+
+<div id="puerta">
+  <form class="caja" id="form-clave">
+    <img src="../assets/logo-aisab.png" alt="AISAB">
+    <h1>Simpatizantes y afiliados</h1>
+    <input type="password" id="clave" placeholder="Contraseña" autocomplete="current-password" autofocus>
+    <button type="submit">Entrar</button>
+    <p class="error" id="error-clave">Contraseña incorrecta</p>
+  </form>
+</div>
+
+<div id="panel" class="oculto">
+  <header class="barra">
+    <img src="../assets/logo-aisab.png" alt="AISAB">
+    <h1>Simpatizantes y afiliados</h1>
+    <a href="index.html">Sugerencias</a>
+    <button id="exportar">Exportar CSV</button>
+    <button id="salir">Salir</button>
+  </header>
+
+  <div class="contenido">
+    <p class="aviso oculto" id="aviso-carga">No se han podido cargar las solicitudes. ¿Está creada la tabla en Supabase (afiliados.sql)?</p>
+    <div class="filtros">
+      <div><label for="f-tipo">Tipo</label><select id="f-tipo"><option value="">Todos</option><option>Simpatizante</option><option value="Afiliado">Afiliado/a</option></select></div>
+      <div><label for="f-estado">Estado</label><select id="f-estado"><option value="">Todos</option><option>Pendiente</option><option>Contactada</option><option>Alta</option><option>Descartada</option></select></div>
+      <div class="buscar"><label for="f-texto">Buscar</label><input id="f-texto" type="search" placeholder="Nombre, correo o teléfono"></div>
+      <span class="chip" id="contador">0</span>
+    </div>
+    <div class="lista" id="lista"></div>
+  </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script>
+var HASH_CLAVE = "c8f70915b4cb236f9fc9b97a33151a34a26b40e45ad7f8474de59f01b624ebd5";
+var ESTADOS = ["Pendiente", "Contactada", "Alta", "Descartada"];
+var clave = null, datos = [], filtrados = [];
+var C = window.AISAB_CONFIG || {};
+
+function rpc(nombre, cuerpo) {
+  return fetch(C.SUPABASE_URL + "/rest/v1/rpc/" + nombre, {
+    method:"POST",
+    headers:{ "Content-Type":"application/json", "apikey":C.SUPABASE_ANON_KEY, "Authorization":"Bearer "+C.SUPABASE_ANON_KEY },
+    body: JSON.stringify(cuerpo)
+  }).then(function (r) {
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return r.status === 204 ? null : r.json();
+  });
+}
+
+/* ================= puerta ================= */
+async function sha256(t) {
+  var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+  return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,"0"); }).join("");
+}
+document.getElementById("form-clave").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  var intento = document.getElementById("clave").value;
+  if (await sha256(intento) !== HASH_CLAVE) {
+    document.getElementById("error-clave").style.display = "block";
+    return;
+  }
+  clave = intento;
+  sessionStorage.setItem("aisab_clave", intento);
+  entrar();
+});
+document.getElementById("salir").addEventListener("click", function () {
+  sessionStorage.removeItem("aisab_clave");
+  location.reload();
+});
+
+async function entrar() {
+  document.getElementById("puerta").classList.add("oculto");
+  document.getElementById("panel").classList.remove("oculto");
+  try {
+    datos = await rpc("admin_afiliaciones", { clave: clave });
+  } catch (err) {
+    datos = [];
+    document.getElementById("aviso-carga").classList.remove("oculto");
+  }
+  aplicarFiltros();
+}
+
+/* ================= filtros y lista ================= */
+["f-tipo", "f-estado", "f-texto"].forEach(function (id) {
+  document.getElementById(id).addEventListener("input", aplicarFiltros);
+});
+
+function aplicarFiltros() {
+  var tipo = document.getElementById("f-tipo").value;
+  var estado = document.getElementById("f-estado").value;
+  var texto = document.getElementById("f-texto").value.trim().toLowerCase();
+  filtrados = datos.filter(function (a) {
+    if (tipo && a.tipo !== tipo) return false;
+    if (estado && a.estado !== estado) return false;
+    if (texto && (a.nombre + " " + a.apellidos + " " + a.correo + " " + a.telefono).toLowerCase().indexOf(texto) < 0) return false;
+    return true;
+  });
+  document.getElementById("contador").textContent = filtrados.length + (filtrados.length === 1 ? " solicitud" : " solicitudes");
+  pintarLista();
+}
+
+function pintarLista() {
+  var lista = document.getElementById("lista");
+  if (!filtrados.length) {
+    lista.innerHTML = '<p class="vacio">' + (datos.length ? "Ninguna solicitud con estos filtros." : "Todavía no hay solicitudes.") + "</p>";
+    return;
+  }
+  lista.innerHTML = filtrados.map(function (a) {
+    var tel = a.telefono.replace(/[^\d+]/g, "");
+    var wa = tel.replace(/^\+/, "");
+    if (wa.length === 9) wa = "34" + wa;
+    return '<article class="ficha">' +
+      '<div class="cab"><h2>' + escapar(a.nombre + " " + a.apellidos) + '</h2>' +
+      '<span class="etq ' + escapar(a.tipo) + '">' + (a.tipo === "Afiliado" ? "Afiliado/a" : "Simpatizante") + '</span></div>' +
+      '<p class="fecha">' + new Date(a.creada).toLocaleString("es-ES", { dateStyle:"medium", timeStyle:"short" }) + '</p>' +
+      '<div class="contacto">' +
+        '<a href="tel:' + escapar(tel) + '">' + escapar(a.telefono) + '</a>' +
+        '<a href="https://wa.me/' + escapar(wa) + '" target="_blank" rel="noopener">WhatsApp</a>' +
+        '<a href="mailto:' + escapar(a.correo) + '">' + escapar(a.correo) + '</a>' +
+      '</div>' +
+      '<div class="estado">' + ESTADOS.map(function (e) {
+        return '<button data-id="' + a.id + '" data-estado="' + e + '"' + (a.estado === e ? ' class="activo"' : "") + '>' + e + '</button>';
+      }).join("") + '</div>' +
+    '</article>';
+  }).join("");
+}
+
+document.getElementById("lista").addEventListener("click", async function (e) {
+  var b = e.target.closest("button[data-estado]");
+  if (!b) return;
+  var a = datos.find(function (x) { return String(x.id) === b.dataset.id; });
+  var anterior = a.estado;
+  a.estado = b.dataset.estado;
+  aplicarFiltros();
+  try {
+    await rpc("admin_afiliacion_estado", { clave: clave, aid: a.id, nuevo: a.estado });
+  } catch (err) {
+    a.estado = anterior;
+    aplicarFiltros();
+    alert("No se ha podido guardar el estado. Inténtalo de nuevo.");
+  }
+});
+
+/* ================= exportar ================= */
+document.getElementById("exportar").addEventListener("click", function () {
+  var cab = ["fecha","tipo","nombre","apellidos","correo","telefono","estado"];
+  var filas = [cab.join(";")].concat(filtrados.map(function (a) {
+    return [a.creada, a.tipo, a.nombre, a.apellidos, a.correo, a.telefono, a.estado].map(function (v) {
+      return '"' + String(v == null ? "" : v).replace(/"/g,'""') + '"';
+    }).join(";");
+  }));
+  var blob = new Blob(["﻿" + filas.join("\n")], { type:"text/csv;charset=utf-8" });
+  var enlace = document.createElement("a");
+  enlace.href = URL.createObjectURL(blob);
+  enlace.download = "afiliados-aisab.csv";
+  enlace.click();
+});
+
+function escapar(t) {
+  return String(t == null ? "" : t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+/* sesión recordada (compartida con el panel de sugerencias) */
+(function () {
+  var guardada = sessionStorage.getItem("aisab_clave");
+  if (guardada) sha256(guardada).then(function (h) {
+    if (h === HASH_CLAVE) { clave = guardada; entrar(); }
+  });
+})();
+</script>
+
+</body>
+</html>
