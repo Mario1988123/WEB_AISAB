@@ -232,5 +232,6 @@ window.AISAB_VA = {
   "No se ha podido cambiar. Inténtalo de nuevo.": "No s'ha pogut canviar. Torna-ho a provar.",
   "¡Afíliate a AISAB!": "Afilia't a AISAB!",
   "Hazte simpatizante o afiliado/a": "Fes-te simpatitzant o afiliat/ada",
-  "Cerrar aviso": "Tanca l'avís"
+  "Cerrar aviso": "Tanca l'avís",
+  "¿Queja o sugerencia?": "Queixa o suggeriment?"
 };

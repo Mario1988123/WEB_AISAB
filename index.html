@@ -31,6 +31,12 @@
   </div>
 </header>
 
+<!-- ================= BOTÓN FLOTANTE DE SUGERENCIAS ================= -->
+<button type="button" id="boton-sugerencia" class="boton-flotante" aria-label="¿Tienes una queja o sugerencia?">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.2a3 3 0 0 1 5.8 1c0 2-3 2.3-3 4"/><path d="M12 17.6h.01"/></svg>
+  <span class="flotante-largo">¿Tienes una queja o sugerencia?</span><span class="flotante-corto">¿Queja o sugerencia?</span>
+</button>
+
 <!-- ================= HÉROE: LA PLAZA (secuencia por scroll) ================= -->
 <div id="secuencia">
   <div id="escenario">
@@ -463,11 +469,29 @@ crearFormulario(document.getElementById("form-en-modal"), "modal");
 
 // ---- Modal ----
 const modal = document.getElementById("modal-sugerencias");
-document.getElementById("abrir-modal").addEventListener("click", e => {
+function abrirModal(e) {
   e.preventDefault();
+  document.getElementById("menu-check").checked = false;
   modal.classList.add("visible");
   document.body.style.overflow = "hidden";
-});
+}
+document.getElementById("abrir-modal").addEventListener("click", abrirModal);
+document.getElementById("boton-sugerencia").addEventListener("click", abrirModal);
+
+// ---- Botón flotante: solo icono dentro del héroe (móvil) y escondido sobre el formulario y el pie ----
+(function () {
+  const boton = document.getElementById("boton-sugerencia");
+  if (!("IntersectionObserver" in window)) return;
+  new IntersectionObserver(([e]) => boton.classList.toggle("compacto", e.isIntersecting),
+    { rootMargin: "0px 0px -60% 0px" }).observe(document.getElementById("secuencia"));
+  const tapan = new Set();
+  const vigia = new IntersectionObserver(entradas => {
+    entradas.forEach(e => e.isIntersecting ? tapan.add(e.target) : tapan.delete(e.target));
+    boton.classList.toggle("escondido", tapan.size > 0);
+  });
+  vigia.observe(document.getElementById("sugerencias"));
+  vigia.observe(document.querySelector(".pie"));
+})();
 function cerrarModal() {
   modal.classList.remove("visible");
   document.body.style.overflow = "";
