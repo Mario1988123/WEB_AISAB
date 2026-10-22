@@ -21,11 +21,6 @@
   .barra-acceso { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
   .volver { color: var(--azul-oscuro); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
   .volver:hover { text-decoration: underline; }
-  .selector-idioma {
-    appearance: none; -webkit-appearance: none; font: inherit; font-weight: 700; font-size: .9rem; color: var(--azul-oscuro);
-    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14'%3E%3Cpath d='M1 5l4-4 4 4M1 9l4 4 4-4' fill='none' stroke='%2311427e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center;
-    border: 1px solid #b9cde3; border-radius: 10px; padding: 9px 34px 9px 14px; min-height: 44px; cursor: pointer;
-  }
 
   .sello { width: 64px; height: 64px; border-radius: 16px; background: var(--azul-logo); display: grid; place-items: center; margin: 0 auto 16px; box-shadow: var(--sombra); }
   .sello img { height: 46px; width: auto; }
@@ -124,10 +119,7 @@
 <main class="acceso">
   <div class="barra-acceso">
     <a class="volver" href="index.html"><span aria-hidden="true">←</span> Volver a la web</a>
-    <select class="selector-idioma" aria-label="Idioma">
-      <option value="es">Castellano</option>
-      <option value="va">Valencià</option>
-    </select>
+    <div class="idiomas claro" role="group" aria-label="Idioma"><button type="button" data-idioma="es" lang="es" aria-label="Castellano"><svg class="bandera" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/></svg><span class="idioma-largo">Castellano</span><span class="idioma-corto">Cas</span></button><button type="button" data-idioma="va" lang="ca-ES-valencia" aria-label="Valencià"><svg class="bandera" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#FCDD09"/><g fill="#DA121A"><rect y="2.22" width="30" height="2.22"/><rect y="6.67" width="30" height="2.22"/><rect y="11.11" width="30" height="2.22"/><rect y="15.56" width="30" height="2.22"/></g><rect width="7.5" height="20" fill="#0072CE"/><rect x="7.5" width=".8" height="20" fill="#DA121A"/><path d="M1.6 4.6 2 2l1.1 1.5L3.75 1.6l.65 1.9L5.5 2l.4 2.6z" fill="#FCDD09"/></svg><span class="idioma-largo">Valencià</span><span class="idioma-corto">Val</span></button></div>
   </div>
 
   <div class="sello"><img src="assets/logo-aisab-arbol.png" alt="AISAB"></div>

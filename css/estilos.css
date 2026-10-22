@@ -81,20 +81,37 @@ img { max-width: 100%; display: block; }
 }
 .menu a.cta:hover { text-decoration: none; filter: brightness(1.1); }
 
-/* Selector de idioma (Cas / Val) */
+/* Selector de idioma: Castellano / Valencià con bandera */
 .idiomas { display: inline-flex; background: rgba(255,255,255,.16); border-radius: 999px; padding: 3px; gap: 2px; flex: none; }
 .idiomas button {
-  font: inherit; font-size: .85rem; font-weight: 700; color: var(--blanco); background: none; border: none;
-  border-radius: 999px; padding: 6px 11px; min-height: 36px; min-width: 44px; cursor: pointer;
+  font: inherit; font-size: .88rem; font-weight: 700; color: var(--blanco); background: none; border: none;
+  border-radius: 999px; padding: 6px 12px 6px 8px; min-height: 38px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px; -webkit-tap-highlight-color: transparent;
 }
 .idiomas button.activo { background: var(--blanco); color: var(--azul-oscuro); }
-.cabecera-overlay:not(.solida) .idiomas { background: rgba(8,30,60,.35); }
-.cabecera-overlay .cabecera-inner > .idiomas { margin-left: auto; }
-/* En escritorio el menú de la portada ocupa casi todo el ancho:
-   solo se enseña el idioma al que se puede cambiar */
+.idiomas .bandera { width: 24px; height: 16px; border-radius: 3px; flex: none; box-shadow: 0 0 0 1px rgba(0,0,0,.18); }
+.idiomas button:not(.activo) .bandera { opacity: .85; }
+.idiomas .idioma-corto { display: none; }
+.cabecera-overlay:not(.solida) .idiomas { background: rgba(8,30,60,.4); }
+/* Portada en escritorio: el selector va arriba a la derecha, encima del menú */
+.cabecera-overlay .cabecera-inner { position: relative; }
 @media (min-width: 761px) {
-  .cabecera-overlay .idiomas button.activo { display: none; }
-  .cabecera-overlay .idiomas button { padding: 6px 10px; }
+  .cabecera-overlay .cabecera-inner { padding-top: 46px; }
+  .cabecera-overlay .cabecera-inner > .idiomas { position: absolute; top: 8px; right: 20px; }
+}
+/* Portada en móvil: junto a la hamburguesa, con bandera y nombre corto */
+@media (max-width: 760px) {
+  .cabecera-overlay .cabecera-inner > .idiomas { margin-left: auto; }
+  .cabecera-overlay .idiomas .idioma-largo { display: none; }
+  .cabecera-overlay .idiomas .idioma-corto { display: inline; }
+}
+/* Versión para fondo claro (/afiliados) */
+.idiomas.claro { background: #fff; box-shadow: 0 0 0 1px #c9d8e8; }
+.idiomas.claro button { color: var(--azul-oscuro); }
+.idiomas.claro button.activo { background: var(--azul-oscuro); color: #fff; }
+@media (max-width: 400px) {
+  .idiomas.claro .idioma-largo { display: none; }
+  .idiomas.claro .idioma-corto { display: inline; }
 }
 
 /* Logo solo-árbol y menú hamburguesa: ocultos en escritorio */
@@ -610,7 +627,7 @@ img { max-width: 100%; display: block; }
 /* ---------- Toast «Afíliate a AISAB» (héroe) ---------- */
 /* Queda por debajo de la pantalla de carga (z-index 20) y entra cuando esta se va */
 #toast-afiliate {
-  position: absolute; right: 24px; bottom: 24px; z-index: 15;
+  position: absolute; right: 24px; bottom: 96px; z-index: 15;
   width: min(360px, calc(100% - 32px));
   display: flex; align-items: center;
   background: var(--blanco); border-radius: 16px;
@@ -642,7 +659,7 @@ img { max-width: 100%; display: block; }
 @keyframes toast-sale { to { opacity: 0; transform: translateY(16px) scale(.97); } }
 @media (max-width: 760px) {
   /* móvil: centrado, por encima del «Haz scroll» */
-  #toast-afiliate { left: 0; right: 0; margin: 0 auto; bottom: 86px; }
+  #toast-afiliate { left: 0; right: 0; margin: 0 auto; bottom: 132px; }
 }
 @media (prefers-reduced-motion: reduce) {
   #toast-afiliate, #toast-afiliate.saliendo { animation-duration: .01s; animation-delay: 0s; }
