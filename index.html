@@ -478,12 +478,17 @@ function abrirModal(e) {
 document.getElementById("abrir-modal").addEventListener("click", abrirModal);
 document.getElementById("boton-sugerencia").addEventListener("click", abrirModal);
 
-// ---- Botón flotante: solo icono dentro del héroe (móvil) y escondido sobre el formulario y el pie ----
+// ---- Botón flotante: encima del toast mientras se ve el héroe; escondido sobre el formulario y el pie ----
 (function () {
   const boton = document.getElementById("boton-sugerencia");
   if (!("IntersectionObserver" in window)) return;
-  new IntersectionObserver(([e]) => boton.classList.toggle("compacto", e.isIntersecting),
+  let enHeroe = true;
+  const colocar = () => boton.classList.toggle("sobre-toast", enHeroe && !!document.getElementById("toast-afiliate"));
+  colocar();
+  new IntersectionObserver(([e]) => { enHeroe = e.isIntersecting; colocar(); },
     { rootMargin: "0px 0px -60% 0px" }).observe(document.getElementById("secuencia"));
+  const cerrarToast = document.querySelector(".toast-cerrar");
+  if (cerrarToast) cerrarToast.addEventListener("click", () => setTimeout(colocar, 300));
   const tapan = new Set();
   const vigia = new IntersectionObserver(entradas => {
     entradas.forEach(e => e.isIntersecting ? tapan.add(e.target) : tapan.delete(e.target));
